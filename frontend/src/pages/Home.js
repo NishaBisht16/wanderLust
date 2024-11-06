@@ -25,20 +25,16 @@ function HomeScreen() {
 
   return (
     <div>
-      <h1>Welcome to Home</h1>
+     
       {
         listData.map((data)=>(
-            <div key={data._id}>
-                <p>{data.title}</p>
-                <img src={data.image}></img>
-                <p>{data.price}</p>
-                <p>{data.location}</p>
-                <p>{data.country}</p>
-            </div>
+            <ul key={data._id}>
+                <li><a href={`/show/${data._id}`}>{data.title}</a></li>
+            </ul>
         ))
       }
     </div>
   )
 }
 
-export default HomeScreen
+export default HomeScreen;
