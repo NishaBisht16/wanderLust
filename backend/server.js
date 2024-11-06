@@ -9,6 +9,8 @@ const cors=require('cors')
 dotenv.config();
 connectToDb();
 app.use(cors())
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
 
 const PORT = process.env.PORT || 8000;
 app.listen(PORT, () => {
@@ -66,8 +68,34 @@ catch(error)
         result:0,
         error_value:error
     })
-    
 }
+})
 
+app.post('/create',async(req,res)=>{
+    try{
+        const {title,price,location,country}=req.body
+        const newList=new Listing({
+            title:title,
+            price:price,
+            location:location,
+            country:country
+        })
 
+    newList.save().then(()=>{
+        res.send({
+            result:1,
+            message:"Data saved successfully"
+        })
+
+    }).catch(()=>{
+        res.send({
+            result:0,
+            message:"Data did not save, Something went wrong!!"
+        })
+    })
+
+    }catch(error){
+        console.log("error",error)
+
+    }
 })
