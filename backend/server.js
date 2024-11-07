@@ -75,12 +75,25 @@ catch(error)
 app.post('/create',async(req,res)=>{
     try{
         const {title,price,location,country}=req.body
+        const existedData=await Listing.find()
+       for(let i=0; i<existedData.length; i++)
+       {
+           if((title==existedData[i].title) && (price==existedData[i].price) &&(location==existedData[i].location)&& (country==existedData[i].country))
+           {
+              res.send({
+                result:0,
+                message:"Data already existed!! Please create a new list"
+              })
+              return;
+           }
+       }
         const newList=new Listing({
             title:title,
             price:price,
             location:location,
             country:country
         })
+
 
     newList.save().then(()=>{
         res.send({
@@ -109,7 +122,7 @@ app.get('/Edit/:id',async(req,res)=>{
         const data=await Listing.findById({_id:id})
         res.send({
             result:1,
-            result_value:{data}
+            result_value:data
         })
         }
     else{
@@ -159,3 +172,32 @@ app.put('/update/:id',async(req,res)=>{
     }
 })
 
+app.delete('/delete/:id',async(req,res)=>{
+ 
+    const {id}=req.params;
+    if (!mongoose.Types.ObjectId.isValid(id)) {
+        return res.status(400).json({ error: "Invalid ID format" });
+    }
+
+    try {
+        const deleteData = await Listing.findByIdAndDelete(id);
+          if(deleteData)
+          {
+            res.send({
+                result:1,
+                message:"Data deleted"
+            })
+            return;
+          }
+          else{
+            res.send({
+                result:0,
+                message:"Data did not delete"
+            })
+            return;
+          }
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ error: "Internal Server Error" });
+    }
+})
