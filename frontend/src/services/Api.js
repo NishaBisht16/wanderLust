@@ -19,7 +19,6 @@ export const Get=async(endpoint)=>{
 
 export const Post=async(endpoint,data)=>{
     try{
-        debugger;
         console.log(data)
         const response=await fetch(`${API_URL}${endpoint}`,{
             method:"POST",
@@ -33,4 +32,22 @@ export const Post=async(endpoint,data)=>{
     catch(error){
         console.log(error)
     }
+}
+
+export const Put=async(endpoint,data)=>{
+    try{
+        console.log(data)
+        const response=await fetch(`${API_URL}${endpoint}`,{
+            method:"PUT",
+            headers:{
+                "Content-Type":"application/json"
+            },
+            body:JSON.stringify(data)
+        })
+        return await response.json()
+    }
+    catch(error){
+        console.log(error)
+    }
+
 }

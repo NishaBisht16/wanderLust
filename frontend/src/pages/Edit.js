@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react'
 import { useState } from 'react'
-import { Get } from '../services/Api'
+import { Get, Put } from '../services/Api'
 import { useLocation } from 'react-router-dom';
 
 function Edit() {
@@ -8,7 +8,12 @@ function Edit() {
     const [price,setprice]=useState('')
     const [location,setlocation]=useState('')
     const [country,setcountry]=useState('')
-    const [Edit,setEdit]=useState([])
+ 
+
+    console.log(title)
+    console.log(price)
+    console.log(location)
+    console.log(country)
     
     const location2=useLocation()
     const { id } = location2.state || {}
@@ -16,23 +21,40 @@ function Edit() {
     const editData=async()=>{
       try{
         const response=await Get(`Edit/${id}`)
-        console.log(response)
-           
+        console.log(response)     
+
         settitle(response.result_value.data.title)
         setprice(response.result_value.data.price)
         setlocation(response.result_value.data.location)
         setcountry(response.result_value.data.country)
-    
       }
       catch(error)
       {
-
+        console.log(Error)
       }
     }
 
+    const updateData=async()=>{
+      try{
+        const response=await Put(`update/${id}`,{title,price,location,country})
+        if(response.result>0)
+        {
+          alert(response.message)
+        }
+        else{
+          alert(response.message)
+        }
+      }
+      catch(error)
+      {
+        console.log(error)
+
+      }
+    }
     useEffect(()=>{
       editData()
     },[])
+
   return (
     <div>
         <h1>Here you can Edit list</h1>
@@ -59,7 +81,7 @@ function Edit() {
        ></input>
       
       </div>
-      <button >Update</button>
+      <button onClick={updateData} >Update</button>
     </div>
   )
 }

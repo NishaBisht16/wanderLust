@@ -26,7 +26,7 @@ function Show(){
 
         }
     }
-
+    
     useEffect(()=>{
         ShowindividualData()
     },[])
@@ -34,7 +34,7 @@ function Show(){
     <div>
        <h1>Display idividual data</h1>
        <p>{Show.title}</p>
-       <img src={Show.image}></img>
+       <img src={Show.image} height='200px' width='200px'></img>
        <div style={{display:'flex', alignItems:"center"}}>
         <img src={rupee} height='20px' width='20px' style={{display:"block"}}></img>
         <p>{(Show.price ?? 0).toLocaleString("en-IN", { currency: "INR" })}</p>
@@ -42,6 +42,7 @@ function Show(){
        <p>{Show.location}</p>
        <p>{Show.country}</p>
        <button onClick={() => navigate('/Edit', { state: { id: Show._id } })}>Edit</button>
+       <button>Delete</button>
     </div>
   )
 }
