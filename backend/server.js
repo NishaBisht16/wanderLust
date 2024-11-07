@@ -121,7 +121,7 @@ app.get('/Edit/:id',async(req,res)=>{
      
 })
 
-app.post('/update/:id',async(req,res)=>{
+app.put('/update/:id',async(req,res)=>{
     try{
         const {id}=req.params
         if (!mongoose.Types.ObjectId.isValid(id)) {
@@ -158,3 +158,4 @@ app.post('/update/:id',async(req,res)=>{
 
     }
 })
+
