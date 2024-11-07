@@ -2,10 +2,12 @@ import React, { useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom'
 import { Get } from '../services/Api';
 import rupee from '../images/rupee.svg'
+import { useNavigate } from 'react-router-dom';
 
 function Show(){
     const {id}=useParams();
     const[Show,setShow]=useState([])
+    const navigate=useNavigate();
     
     const ShowindividualData=async()=>{
         try{
@@ -39,6 +41,7 @@ function Show(){
         </div>
        <p>{Show.location}</p>
        <p>{Show.country}</p>
+       <button onClick={() => navigate('/Edit', { state: { id: Show._id } })}>Edit</button>
     </div>
   )
 }

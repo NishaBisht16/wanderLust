@@ -40,6 +40,7 @@ function CreateList() {
          <p>Price</p>
         <input onChange={(e)=>setprice(e.target.value)}
         value={price}
+        type='number'
         placeholder='Enter Price'></input>
         <p>Location</p>
         <input
@@ -48,8 +49,9 @@ function CreateList() {
          placeholder='Enter Location'></input>
         <p>Country</p>
         <input onChange={(e)=>setcountry(e.target.value)}
-       value={country}
-       placeholder='Enter Country'
+        value={country}
+        placeholder='Enter Country'
+       type='text'
        ></input>
       
       </div>
