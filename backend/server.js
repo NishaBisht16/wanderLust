@@ -99,3 +99,10 @@ app.post('/create',async(req,res)=>{
 
     }
 })
+
+
+app.get('/Edit/:id',async(req,res)=>{
+    const {id}=req.params
+    const data=await Listing.findById({_id:id})
+    res.send(data)
+})
