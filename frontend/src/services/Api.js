@@ -49,5 +49,18 @@ export const Put=async(endpoint,data)=>{
     catch(error){
         console.log(error)
     }
+}
 
+export const Delete=async(endpoint)=>{
+    try{
+        const response= await fetch(`${API_URL}${endpoint}`,{
+            method:"DELETE"
+        })
+       return await response.json()
+    }
+    catch(error)
+    {
+        console.log(error)
+
+    }
 }

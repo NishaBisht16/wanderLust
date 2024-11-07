@@ -1,5 +1,6 @@
 import React, { useState } from 'react'
 import { Post } from '../services/Api'
+import { useNavigate } from 'react-router-dom';
 
 function CreateList() {
 
@@ -8,14 +9,19 @@ function CreateList() {
     const [location,setlocation]=useState('')
     const [country,setcountry]=useState('')
 
-   
+    const navigate=useNavigate()
     const createData=async()=>{
+
       try{
+        debugger;
         const data=await Post('create',{title,price,location,country})
         console.log(data)
         if(data.result>1)
         {
           alert(data.message)
+          navigate('/')
+          return;
+          
         }
         else{
           alert(data.message)

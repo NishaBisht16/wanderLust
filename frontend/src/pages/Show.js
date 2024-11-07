@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom'
-import { Get } from '../services/Api';
+import { Delete, Get } from '../services/Api';
 import rupee from '../images/rupee.svg'
 import { useNavigate } from 'react-router-dom';
 
@@ -26,7 +26,18 @@ function Show(){
 
         }
     }
-    
+
+    const deleteData=async()=>{
+        const data=await Delete(`delete/${id}`)
+        if(data.result>0)
+        {
+            alert(data.message)
+            navigate('/')
+        }
+        else{
+            alert(data.message)
+        }
+    }
     useEffect(()=>{
         ShowindividualData()
     },[])
@@ -42,7 +53,7 @@ function Show(){
        <p>{Show.location}</p>
        <p>{Show.country}</p>
        <button onClick={() => navigate('/Edit', { state: { id: Show._id } })}>Edit</button>
-       <button>Delete</button>
+       <button onClick={deleteData}>Delete</button>
     </div>
   )
 }

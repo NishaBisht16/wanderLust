@@ -2,6 +2,7 @@ import React, { useEffect } from 'react'
 import { useState } from 'react'
 import { Get, Put } from '../services/Api'
 import { useLocation } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
 function Edit() {
     const [title,settitle]=useState('')
@@ -9,6 +10,7 @@ function Edit() {
     const [location,setlocation]=useState('')
     const [country,setcountry]=useState('')
  
+    const navigate=useNavigate();
 
     console.log(title)
     console.log(price)
@@ -23,10 +25,10 @@ function Edit() {
         const response=await Get(`Edit/${id}`)
         console.log(response)     
 
-        settitle(response.result_value.data.title)
-        setprice(response.result_value.data.price)
-        setlocation(response.result_value.data.location)
-        setcountry(response.result_value.data.country)
+        settitle(response.result_value.title)
+        setprice(response.result_value.price)
+        setlocation(response.result_value.location)
+        setcountry(response.result_value.country)
       }
       catch(error)
       {
@@ -40,6 +42,8 @@ function Edit() {
         if(response.result>0)
         {
           alert(response.message)
+          navigate(`/show/${id}`)
+
         }
         else{
           alert(response.message)

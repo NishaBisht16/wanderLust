@@ -1,8 +1,10 @@
 import React, { useEffect,useState} from 'react'
 import { Get } from '../services/Api'
+import { useNavigate } from 'react-router-dom';
 
 function HomeScreen() {
     const[listData,setlistData]=useState([])
+    const navigate=useNavigate();
     const getAllData=async()=>{
         try{
             const data=await Get('allListing')   
@@ -33,6 +35,7 @@ function HomeScreen() {
             </ul>
         ))
       }
+      <button onClick={()=>navigate('/create')}>Create New</button>
     </div>
   )
 }
