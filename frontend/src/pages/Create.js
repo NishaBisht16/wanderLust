@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 import { Post } from '../services/Api'
 import { useNavigate } from 'react-router-dom';
+import Header from '../components/Header';
 
 function CreateList() {
 
@@ -35,7 +36,7 @@ function CreateList() {
 
   return (
     <div>
-      <h1>Here you can add a new list</h1>
+       <Header/>
       <div>
         <p>Title</p>
         <input onChange={(e)=>settitle(e.target.value)}

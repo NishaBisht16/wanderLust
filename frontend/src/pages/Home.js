@@ -1,6 +1,7 @@
 import React, { useEffect,useState} from 'react'
 import { Get } from '../services/Api'
 import { useNavigate } from 'react-router-dom';
+import Header from '../components/Header';
 
 function HomeScreen() {
     const[listData,setlistData]=useState([])
@@ -27,10 +28,11 @@ function HomeScreen() {
 
   return (
     <div>
-     
+     <Header/>
       {
         listData.map((data)=>(
             <ul key={data._id}>
+                <li><a href={`/show/${data._id}`}>{data.title}</a></li>
                 <li><a href={`/show/${data._id}`}>{data.title}</a></li>
             </ul>
         ))

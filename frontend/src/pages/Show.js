@@ -3,6 +3,7 @@ import { useParams } from 'react-router-dom'
 import { Delete, Get } from '../services/Api';
 import rupee from '../images/rupee.svg'
 import { useNavigate } from 'react-router-dom';
+import Header from '../components/Header';
 
 function Show(){
     const {id}=useParams();
@@ -43,7 +44,7 @@ function Show(){
     },[])
   return (
     <div>
-       <h1>Display idividual data</h1>
+        <Header/>
        <p>{Show.title}</p>
        <img src={Show.image} height='200px' width='200px'></img>
        <div style={{display:'flex', alignItems:"center"}}>

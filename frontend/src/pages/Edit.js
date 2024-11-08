@@ -3,6 +3,7 @@ import { useState } from 'react'
 import { Get, Put } from '../services/Api'
 import { useLocation } from 'react-router-dom';
 import { useNavigate } from 'react-router-dom';
+import Header from '../components/Header';
 
 function Edit() {
     const [title,settitle]=useState('')
@@ -61,7 +62,7 @@ function Edit() {
 
   return (
     <div>
-        <h1>Here you can Edit list</h1>
+      <Header/>
       <div>
         <p>Title</p>
         <input onChange={(e)=>settitle(e.target.value)}
