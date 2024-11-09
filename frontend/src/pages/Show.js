@@ -4,6 +4,7 @@ import { Delete, Get } from '../services/Api';
 import rupee from '../images/rupee.svg'
 import { useNavigate } from 'react-router-dom';
 import Header from '../components/Header';
+import Footer from '../components/Footer';
 
 function Show(){
     const {id}=useParams();
@@ -55,6 +56,7 @@ function Show(){
        <p>{Show.country}</p>
        <button onClick={() => navigate('/Edit', { state: { id: Show._id } })}>Edit</button>
        <button onClick={deleteData}>Delete</button>
+       <Footer/>
     </div>
   )
 }

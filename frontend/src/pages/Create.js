@@ -2,6 +2,7 @@ import React, { useState } from 'react'
 import { Post } from '../services/Api'
 import { useNavigate } from 'react-router-dom';
 import Header from '../components/Header';
+import Footer from '../components/Footer';
 
 function CreateList() {
 
@@ -63,6 +64,7 @@ function CreateList() {
       
       </div>
       <button onClick={createData}>Create</button>
+      <Footer/>
     </div>
   )
 }

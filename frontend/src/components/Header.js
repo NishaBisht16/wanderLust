@@ -6,18 +6,12 @@ function Header() {
   
         <div className='header-container'>
             <div className='header'>
-                <a href='#'>Home</a>
+                <a href='/'>Home</a>
                <a href='#'>All Listing</a>
                <a href='/create'>Add new Listing</a>
             </div>
               <hr></hr>
-        </div>
-          
-       
- 
-       
-       
+        </div> 
   )
 }
-
-export default Header
+export default Header;

@@ -4,6 +4,7 @@ import { Get, Put } from '../services/Api'
 import { useLocation } from 'react-router-dom';
 import { useNavigate } from 'react-router-dom';
 import Header from '../components/Header';
+import Footer from '../components/Footer';
 
 function Edit() {
     const [title,settitle]=useState('')
@@ -87,6 +88,7 @@ function Edit() {
       
       </div>
       <button onClick={updateData} >Update</button>
+      <Footer/>
     </div>
   )
 }
