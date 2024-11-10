@@ -5,6 +5,8 @@ import Show from './pages/Show';
 import CreateList from './pages/Create';
 import { Route,BrowserRouter, Routes} from 'react-router-dom';
 import Edit from './pages/Edit';
+import 'bootstrap/dist/css/bootstrap.min.css';
+
 
 function App() {
   return (
