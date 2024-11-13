@@ -11,13 +11,11 @@ function Edit() {
     const [price,setprice]=useState('')
     const [location,setlocation]=useState('')
     const [country,setcountry]=useState('')
+    const [image,setimage]=useState('')
  
     const navigate=useNavigate();
 
-    console.log(title)
-    console.log(price)
-    console.log(location)
-    console.log(country)
+   
     
     const location2=useLocation()
     const { id } = location2.state || {}
@@ -31,6 +29,7 @@ function Edit() {
         setprice(response.result_value.price)
         setlocation(response.result_value.location)
         setcountry(response.result_value.country)
+        setimage(response.result_value.image)
       }
       catch(error)
       {
@@ -40,7 +39,7 @@ function Edit() {
 
     const updateData=async()=>{
       try{
-        const response=await Put(`update/${id}`,{title,price,location,country})
+        const response=await Put(`update/${id}`,{title,price,location,country,image})
         if(response.result>0)
         {
           alert(response.message)
@@ -62,32 +61,63 @@ function Edit() {
     },[])
 
   return (
-    <div>
+    <div className='main'>
       <Header/>
-      <div>
-        <p>Title</p>
-        <input onChange={(e)=>settitle(e.target.value)}
-        value={title}>
-        </input>
-         <p>Price</p>
-        <input onChange={(e)=>setprice(e.target.value)}
-        value={price}
-        type='number'
-        ></input>
-        <p>Location</p>
-        <input
-         onChange={(e)=>setlocation(e.target.value)}
-         value={location}
-         ></input>
-        <p>Country</p>
-        <input onChange={(e)=>setcountry(e.target.value)}
-       value={country}
-       type='text'
-      
-       ></input>
-      
+
+      <div className='row' >
+        <div className='col-8 offset-2'>
+          <form>
+            <div className='mb-3'>
+              <label for="title" className='form-lable'>Title</label>
+              <input onChange={(e)=>settitle(e.target.value)}
+               value={title}
+               className='form-control'>
+             </input>
+            </div>
+
+            <div className='mb-3' >
+              <label for="image" className='form-lable'>Image/Link</label>
+              <input onChange={(e)=>setimage(e.target.value)} accept="image/*" className='form-control'  value={image} />
+            </div>
+           
+               <div className='row'>
+               <div className='mb-3 col-md-4'>
+              <label for="price" className='form-lable'>Price</label>
+              <input onChange={(e)=>setprice(e.target.value)}
+              value={price}
+               type='number'
+                className='form-control'
+               ></input>
+
+            </div>
+            <div className='mb-3 col-md-8'>
+              <label for="country" className='form-lable'>Country</label>
+              <input onChange={(e)=>setcountry(e.target.value)}
+              value={country}
+                type='text'
+                 className='form-control'
+               ></input>
+            </div>
+               </div>
+          
+
+            <div className='mb-3'>
+              <label for="location" className='form-lable'>Location</label>
+              <input
+               onChange={(e)=>setlocation(e.target.value)}
+               value={location}
+                className='form-control'
+               ></input>
+            </div>
+            <button onClick={updateData} className='btn btn-success'>Update</button>
+          </form>
+        </div>
       </div>
-      <button onClick={updateData} >Update</button>
+      <div>
+       
+    
+      </div>
+    
       <Footer/>
     </div>
   )
