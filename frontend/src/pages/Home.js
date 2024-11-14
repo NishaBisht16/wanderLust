@@ -32,6 +32,7 @@ function HomeScreen() {
 
   return (
     <div className='main'>
+      <div style={{marginLeft:"20px"}}>
      <Header/>
      <h1>ALL LISTING</h1>
      <div className='row row-cols-lg-3 row-cols-md-2 row-cols-sm-1'>
@@ -48,11 +49,7 @@ function HomeScreen() {
               <div className="card-body">
             <img style={{ height: '20rem' }} src={data.image} className="card-img-top" alt="Listing" />
               <h5 className="card-title">{data.title} </h5>
-              <div style={{display:'flex' , paddingTop:"0"}}  >
-             <img src={rupee} height='20px' width='20px' style={{display:"block"}}></img>
-              <p>{(data.price ?? 0).toLocaleString("en-IN", { currency: "INR" })}/night</p>
-              
-              </div>
+              <p>{(data.price ?? 0).toLocaleString("en-IN", {style: "currency", currency: "INR" })}/night</p>
               </div>
               </div>
               </a>
@@ -61,6 +58,7 @@ function HomeScreen() {
            
         ))
       } </div>
+      </div>
       
       <Footer/>
     </div>
