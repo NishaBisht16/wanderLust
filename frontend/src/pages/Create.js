@@ -4,23 +4,46 @@ import { useNavigate } from 'react-router-dom';
 import Header from '../components/Header';
 import Footer from '../components/Footer';
 import './Create.css'
+import AddDataValidation from './validation/CreateValidation';
 
 function CreateList() {
 
-    const [title,settitle]=useState('')
-    const [price,setprice]=useState('')
-    const [location,setlocation]=useState('')
-    const [country,setcountry]=useState('')
-    const [image,setimage]=useState('')
+    const [data,setdata]=useState({
+      title:'',
+      price:'',
+      image:'',
+      location:'',
+      country:''
+    })
+
+    const [error,seterror]=useState({})
+
+    const handleInputs=(e)=>{
+      const newData={...data,[e.target.name]:e.target.value}
+      setdata(newData)
+
+    }
 
     const navigate=useNavigate()
     const createData=async()=>{
-
       try{
         debugger;
-        const data=await Post('create',{title,price,location,country})
-        console.log(data)
-        if(data.result>1)
+      const validation= AddDataValidation(data)
+      console.log("Errors :",validation)
+      seterror(validation)
+      if(validation.title || validation.price || validation.location || validation.country)
+      {
+        return;
+      }
+      
+        const response=await Post('create',{
+          title:data.title,
+          price:data.price,
+          image:data.image,
+          location:data.location,
+          country:data.country
+        })
+        if(response.result>1)
         {
           alert(data.message)
           navigate('/')
@@ -28,7 +51,7 @@ function CreateList() {
           
         }
         else{
-          alert(data.message)
+          alert(response.message)
         }
       }
       catch(error)
@@ -43,54 +66,58 @@ function CreateList() {
     
         <div className='row'>
           <div className='col-8 offset-2'>
-          <form>
+          <form onSubmit={(e)=>e.preventDefault()}>
           <div className='mb-3'>
             <label for="title" className='form-lable'>Title</label>
-            <input onChange={(e)=>settitle(e.target.value)}
+            <input onChange={handleInputs}
+            name='title'
             type='text'
-            value={title}
              placeholder='Enter Title'
              className='form-control'
          >
         </input>
+         {error.title && <p className='error'>{error.title}</p>}
           </div>
+         
           <div className='mb-3'>
-            <label for="title" className='form-lable'>Image Link</label>
-            <input onChange={(e)=>setimage(e.target.value)}
-            value={image}
+            <label for="image" className='form-lable'>Image Link</label>
+            <input onChange={handleInputs}
+            name='image'
              type='text'
              placeholder='enter image URL/LINK'
              className='form-control'
+             style={{marginBottom:'2rem'}}
          >
         </input>
           </div>
           <div className='row'>
           <div className='mb-3 col-md-4'>
             <label for="price" className='form-lable'>Price</label>
-            <input onChange={(e)=>setprice(e.target.value)}
-             value={price}
+            <input onChange={handleInputs}
+            name='price'
             type='number'
            placeholder='Enter Price' className='form-control'></input>
+           {error.price && <p className='error'>{error.price}</p>}
           </div>
 
           <div className='mb-3 col-md-8'>
             <label for="country" className='form-lable'>Country</label>
-            <input onChange={(e)=>setcountry(e.target.value)}
-            value={country} 
+            <input onChange={handleInputs}
+            name='country' 
             placeholder='Enter country'
             type='text'
              className='form-control'/>
+             {error.country && <p className='error'>{error.country}</p>}
           </div>
 
           </div>
-        
-
           <div className='mb-3'>
             <label for="location">Location</label>
             <input
-         onChange={(e)=>setlocation(e.target.value)}
-         value={location}
+         onChange={handleInputs}
+        name='location'
          placeholder='Enter Location' className='form-control'></input> 
+         {error.location && <p className='error'>{error.location}</p>}
           </div>
           <div>
           <button onClick={createData} className='btn  btn-primary'>Create</button>

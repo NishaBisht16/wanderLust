@@ -7,22 +7,25 @@ import Header from '../components/Header';
 import Footer from '../components/Footer';
 
 function Edit() {
+
     const [title,settitle]=useState('')
     const [price,setprice]=useState('')
     const [location,setlocation]=useState('')
     const [country,setcountry]=useState('')
     const [image,setimage]=useState('')
- 
+    console.log("Counter component rendered");
     const navigate=useNavigate();
 
-   
-    
+  
     const location2=useLocation()
     const { id } = location2.state || {}
+    
 
     const editData=async()=>{
       try{
+        debugger;
         const response=await Get(`Edit/${id}`)
+        console.log("id :",id)
         console.log(response)     
 
         settitle(response.result_value.title)
@@ -39,12 +42,13 @@ function Edit() {
 
     const updateData=async()=>{
       try{
+        debugger;
         const response=await Put(`update/${id}`,{title,price,location,country,image})
         if(response.result>0)
         {
           alert(response.message)
           navigate(`/show/${id}`)
-
+         
         }
         else{
           alert(response.message)
@@ -66,7 +70,7 @@ function Edit() {
 
       <div className='row' >
         <div className='col-8 offset-2'>
-          <form>
+          <form onSubmit={(e)=>e.preventDefault()}>
             <div className='mb-3'>
               <label for="title" className='form-lable'>Title</label>
               <input onChange={(e)=>settitle(e.target.value)}

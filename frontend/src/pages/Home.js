@@ -9,6 +9,7 @@ import './Home.css'
 
 function HomeScreen() {
     const[listData,setlistData]=useState([])
+    console.log("Counter component rendered");
     const navigate=useNavigate();
     const getAllData=async()=>{
         try{
@@ -34,15 +35,11 @@ function HomeScreen() {
     <div className='main'>
       <div style={{marginLeft:"20px"}}>
      <Header/>
-     <h1>ALL LISTING</h1>
+     <h1>All listings</h1>
      <div className='row row-cols-lg-3 row-cols-md-2 row-cols-sm-1'>
       {
         listData.map((data)=>(
-            // <ul key={data._id}>
-            //     <li><a href={`/show/${data._id}`}>{data.title}</a></li>
-            // </ul>
-          
-            <div>
+            <div key={data._id}>
               <a href={`/show/${data._id}`} className='listing-link'>
             <div className="card col " style={{ width: '30rem' }}>
               <div className='card-img-overlay'></div>
