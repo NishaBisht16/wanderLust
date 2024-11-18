@@ -24,6 +24,7 @@ function Edit() {
     const editData=async()=>{
       try{
         debugger;
+
         const response=await Get(`Edit/${id}`)
         console.log("id :",id)
         console.log(response)     
@@ -43,6 +44,11 @@ function Edit() {
     const updateData=async()=>{
       try{
         debugger;
+        if(title==''||price==''||location=='' || country=='' || image=='')
+        {
+          alert('Selected fields should not be empty')
+          return;
+        }
         const response=await Put(`update/${id}`,{title,price,location,country,image})
         if(response.result>0)
         {

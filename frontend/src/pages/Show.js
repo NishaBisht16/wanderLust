@@ -55,8 +55,8 @@ function Show() {
                         <div className="card-body">
                             <h5 className="card-title">{Show.title}</h5>
                             <p  className="card-text">{(Show.price ?? 0).toLocaleString("en-IN", { style: "currency",currency: "INR" })}</p>
+                              <p  className="card-text">{Show.country}</p>
                             <p  className="card-text">{Show.location}</p>
-                            <p  className="card-text">{Show.country}</p>
                             <button className='btn btn-success ' onClick={() => navigate('/Edit', { state: { id: Show._id } })} style={{fontWeight:"bold"}}>Edit</button>
                             <button   className = 'btn btn-danger' onClick={deleteData} style={{marginLeft:"20px", fontWeight:"bold"}}>Delete</button>
                         </div>
