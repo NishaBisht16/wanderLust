@@ -5,6 +5,8 @@ const Listing=require('./models/listing')
 const app=express();
 const cors=require('cors');
 const { default: mongoose } = require('mongoose');
+const ExpressError=require('./utils/ExpressError')
+const {listingSchema}=require('./Schema')
 // const initDB=require('./init/index')
 // initDB();
 dotenv.config();
@@ -73,12 +75,17 @@ catch(error)
 })
 
 app.post('/create',async(req,res)=>{
-    try{
-        const {title,price,location,country}=req.body
+         const result=listingSchema.validate(req.body)
+        if(result.error)
+        {
+          return  res.status(400).json({ error: result.error });
+
+        }
+        const {title,price,location,country,image}=req.body
         const existedData=await Listing.find()
        for(let i=0; i<existedData.length; i++)
        {
-           if((title==existedData[i].title) && (price==existedData[i].price) &&(location==existedData[i].location)&& (country==existedData[i].country))
+           if((title==existedData[i].title) && (price==existedData[i].price) &&(location==existedData[i].location)&& (country==existedData[i].country) &&(image==existedData[i].image))
            {
               res.send({
                 result:0,
@@ -91,7 +98,8 @@ app.post('/create',async(req,res)=>{
             title:title,
             price:price,
             location:location,
-            country:country
+            country:country,
+            image:image
         })
 
 
@@ -101,17 +109,14 @@ app.post('/create',async(req,res)=>{
             message:"Data saved successfully"
         })
 
-    }).catch(()=>{
+    }).catch((err)=>{
         res.send({
             result:0,
-            message:"Data did not save, Something went wrong!!"
+            message:err.message
         })
     })
 
-    }catch(error){
-        console.log("error",error)
-
-    }
+    
 })
 
 
@@ -141,10 +146,10 @@ app.put('/update/:id',async(req,res)=>{
             return res.status(400).json({ error: "Invalid ID format" });
         }
 
-        const {title,price,location,country}=req.body
+        const {title,price,location,country,image}=req.body
         const updateData = await Listing.findByIdAndUpdate(
               id,
-            { title:title, price:price, location:location, country:country },
+            { title:title, price:price, location:location, country:country ,image:image},
             { new: true }
         );
 
@@ -200,4 +205,13 @@ app.delete('/delete/:id',async(req,res)=>{
         console.error(error);
         res.status(500).json({ error: "Internal Server Error" });
     }
+})
+
+app.all("/*",(req,res,next)=>{
+    next(new ExpressError(404,"Page Not Found"))
+})
+
+app.use((err,req,res,next)=>{
+    let (statusCode,message)=err;
+    res.status(statusCode).send(message)
 })
