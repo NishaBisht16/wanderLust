@@ -51,12 +51,13 @@ function CreateList() {
           
         }
         else{
-          alert(response.message)
+          navigate('/Error', { state: { err: response.message } });
+
         }
       }
       catch(error)
       {
-        console.log("error",error)
+        console.log(error)
       }
     }
 
@@ -95,7 +96,6 @@ function CreateList() {
             <label for="price" className='form-lable'>Price</label>
             <input onChange={handleInputs}
             name='price'
-            type='number'
            placeholder='Enter Price' className='form-control'></input>
            {error.price && <p className='error'>{error.price}</p>}
           </div>

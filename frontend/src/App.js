@@ -5,6 +5,7 @@ import Show from './pages/Show';
 import CreateList from './pages/Create';
 import { Route,BrowserRouter, Routes} from 'react-router-dom';
 import Edit from './pages/Edit';
+import Error from './pages/Error';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
 
@@ -17,6 +18,7 @@ function App() {
         <Route path='/show/:id' element={<Show/>}></Route>
         <Route path='/create' element={<CreateList/>}></Route>
         <Route path='/Edit' element={<Edit/>}></Route>
+        <Route path='/Error' element={<Error/>}></Route>
       </Routes>
       </BrowserRouter>
       </>
