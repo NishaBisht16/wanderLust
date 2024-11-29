@@ -46,11 +46,11 @@ function Show() {
             <Header />
 
             <div className='row'>
-                <div className='col-8 offset-2 mb-3' >
+                <div className='col-8 offset-3 mb-3' >
                     <h2>Listing Details</h2>
                 </div>
                 <div className='row'>
-                    <div className="card col-4 offset-2 " >
+                    <div className="card col-4 offset-3 " >
                         <img src={Show.image} class="card-img-top" className='show-img' alt="Listing image" />
                         <div className="card-body">
                             <h5 className="card-title">{Show.title}</h5>
@@ -60,9 +60,29 @@ function Show() {
                             <button className='btn btn-success ' onClick={() => navigate('/Edit', { state: { id: Show._id } })} style={{fontWeight:"bold"}}>Edit</button>
                             <button   className = 'btn btn-danger' onClick={deleteData} style={{marginLeft:"20px", fontWeight:"bold"}}>Delete</button>
                         </div>
+                        <div className='col-8  mb-3 mt-3'>
+                            <hr/>
+                        <h4>Leave a Review</h4>
+                        <form>
+                            <div className='mb-3 mt-3' style={{display:"flex" , alignItems:"center",gap:'5px'}}>
+                                <label htmlFor='rating' className='form-label mb-3'>Rating</label>
+                                <input type='range' min='1' max='5' id='rating' name ='review[rating]' className='form-range'></input>
+                            </div>
+                            <div className='mb-3 mt-3'>
+                                <label htmlFor='comment' className='form-label'>Comment</label>
+                                <textarea type='range' rows='5' cols='30' id='comment' name ='review[comment]' className='form-control '></textarea>
+                            </div>
+                            <button className='btn btn-success'>submit</button>
+                        </form>
+
                     </div>
+                    </div>
+
+                    
                 </div>
+
             </div>
+
             <Footer />
         </div>
     )
