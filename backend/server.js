@@ -2,6 +2,7 @@ const connectToDb=require('./config/db')
 const express=require('express')
 const dotenv = require('dotenv');
 const Listing=require('./models/listing')
+const Review=require('./models/reviewModel')
 const app=express();
 const cors=require('cors');
 const { default: mongoose } = require('mongoose');
