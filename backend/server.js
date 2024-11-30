@@ -208,6 +208,37 @@ app.delete('/delete/:id',async(req,res)=>{
     }
 })
 
+app.post('/listings/:id/reviews',async(req,res)=>{
+    const {id}=req.params;
+    try{
+        let listings=await Listing.findById({_id:id})
+    const {rating,feedback}=req.body
+    const newReview=new Review({
+        comment:feedback,
+        rating:rating
+    })
+    listings.reviews.push(newReview)
+    await newReview.save()
+    await listings.save();
+
+    res.send({
+        result:1,
+        message:"New Review Saved"
+    })
+    }
+    catch(error)
+    {
+        res.send({
+            result:0,
+            message:error
+        })
+
+    }
+    
+
+
+})
+
 app.all("/*",(req,res,next)=>{
     next(new ExpressError(404,"Page Not Found"))
 })
@@ -216,3 +247,5 @@ app.use((err,req,res,next)=>{
     let (statusCode,message)=err;
     res.status(statusCode).send(message)
 })
+
+//listing reves
