@@ -27,7 +27,7 @@ function CreateList() {
     const navigate=useNavigate()
     const createData=async()=>{
       try{
-        debugger;
+       
       const validation= AddDataValidation(data)
       console.log("Errors :",validation)
       seterror(validation)
@@ -36,23 +36,24 @@ function CreateList() {
         return;
       }
       
-        const response=await Post('create',{
+        const response=await Post('createListing',{
           title:data.title,
           price:data.price,
           image:data.image,
           location:data.location,
           country:data.country
         })
-        if(response.result>1)
+        if(response.result>0)
         {
-          alert(data.message)
+          alert(response.message)
           navigate('/')
           return;
           
         }
         else{
           navigate('/Error', { state: { err: response.message } });
-
+          console.log(response.result)
+          return;
         }
       }
       catch(error)

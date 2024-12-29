@@ -22,10 +22,10 @@ function Edit() {
     
 
     const editData=async()=>{
-      try{
-        debugger;
+      
 
-        const response=await Get(`Edit/${id}`)
+        const response=await Get(`EditListing/${id}`)
+        try{
         console.log("id :",id)
         console.log(response)     
 
@@ -37,7 +37,7 @@ function Edit() {
       }
       catch(error)
       {
-        console.log(Error)
+        navigate('/Error', { state: { err: response.error_value } });
       }
     }
 
@@ -49,7 +49,7 @@ function Edit() {
           alert('Selected fields should not be empty')
           return;
         }
-        const response=await Put(`update/${id}`,{title,price,location,country,image})
+        const response=await Put(`updateListing/${id}`,{title,price,location,country,image})
         if(response.result>0)
         {
           alert(response.message)
@@ -57,7 +57,8 @@ function Edit() {
          
         }
         else{
-          alert(response.message)
+          navigate('/Error', { state: { err: response.message } });
+
         }
       }
       catch(error)
@@ -95,7 +96,6 @@ function Edit() {
               <label for="price" className='form-lable'>Price</label>
               <input onChange={(e)=>setprice(e.target.value)}
               value={price}
-               type='number'
                 className='form-control'
                ></input>
 

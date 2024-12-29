@@ -1,5 +1,6 @@
 export default function AddDataValidation(data){
     console.log("validation function called")
+    
     const error={}
 
     if(data.title=='')
@@ -25,6 +26,8 @@ export default function AddDataValidation(data){
     {
         error.image="Image required"
     }
+
+    
     return error;
 }
 
