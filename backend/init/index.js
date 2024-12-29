@@ -1,7 +1,7 @@
 const connectToDb=require('../config/db')
 const express=require('express')
 const dotenv = require('dotenv');
-const Listing=require('../models/listing')
+const Listing=require('../models/listingModel')
 const app=express();
 const initData=require('./data')
 
