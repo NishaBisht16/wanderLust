@@ -67,7 +67,7 @@ function Show() {
             { 
                 seterror('')
                 alert(sendReviews.message)
-                navigate('/')
+                
             }
             else{
                 alert(sendReviews.error_value)
@@ -89,6 +89,14 @@ function Show() {
             console.log(response.error_value)
         }
 
+    }
+
+    const deleteReviews=async(reviewId)=>
+    {
+        console.log("reviewId:",reviewId)
+        console.log("ListingId:",id)
+        const response=await Delete(`listng/${id}/deleteReview/${reviewId}`)
+        
     }
  
     useEffect(()=>{
@@ -140,10 +148,9 @@ function Show() {
                                             <h5 className='card-title'>Nisha Bisht</h5>
                                             <p className='card-text'>{items.comment}</p>
                                             <p className='card-text'>{items.rating} stars</p>
-
+                                            <button className='btn btn-sm btn-danger mb-3' onClick={()=>deleteReviews(items._id)}>Delete</button>
 
                                         </div>
-                                         {/* <li>{items.comment},{items.rating} Stars</li> */}
                                     </div>
                                 ))
                             }
