@@ -41,7 +41,7 @@ function HomeScreen() {
         listData.map((data)=>(
             <div key={data._id}>
               <a href={`/show/${data._id}`} className='listing-link'>
-            <div className="card col " style={{ width: '30rem' }}>
+            <div className="card col listing-card " style={{ width: '30rem' }}>
               <div className='card-img-overlay'></div>
               <div className="card-body">
             <img style={{ height: '20rem' }} src={data.image} className="card-img-top" alt="Listing" />

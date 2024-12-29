@@ -104,7 +104,7 @@ function Show() {
                     <h2>Listing Details</h2>
                 </div>
                 <div className='row'>
-                    <div className="card col-4 offset-3 " >
+                    <div className="card col-5 offset-3 listing-card " >
                         <img src={Show.image} class="card-img-top" className='show-img' alt="Listing image" />
                         <div className="card-body">
                             <h5 className="card-title">{Show.title}</h5>
@@ -114,13 +114,14 @@ function Show() {
                             <button className='btn btn-success ' onClick={() => navigate('/Edit', { state: { id: Show._id } })} style={{ fontWeight: "bold" }}>Edit</button>
                             <button className='btn btn-danger' onClick={deleteData} style={{ marginLeft: "20px", fontWeight: "bold" }}>Delete</button>
                         </div>
-                        <div className='col-8  mb-3 mt-3'>
+                        </div>
+                        <div className='col-5 offset-3  mb-3 mt-3'>
                             <hr />
                             <h4>Leave a Review</h4>
                             <form onSubmit={(e)=>{e.preventDefault()}}>
                                 <div className='mb-3 mt-3' style={{ display: "flex", alignItems: "center", gap: '5px' }}>
                                     <label htmlFor='rating' className='form-label mb-3'>Rating</label>
-                                    <input type='range' min='1' max='5' id='rating' name='review[rating]' className='form-range' onChange={(e)=>setRating(e.target.value)}></input>
+                                    <input type='range' min='0' max='5' id='rating' name='review[rating]' className='form-range' onChange={(e)=>setRating(e.target.value)}></input>
                                 </div>
                                 <div className='mb-3 mt-3'>
                                     <label htmlFor='comment' className='form-label'>Comment</label>
@@ -130,18 +131,26 @@ function Show() {
                                 </div>
                                 <button className='btn btn-success' onClick={reviews}>submit</button>
                             </form>
-                            <h4>All Reviews</h4>
+                             <p style={{marginTop:"20px",fontSize:"18px"}}><b>All Reviews</b></p>
+                             <div className='row'>
                             {
                                 Reviews.map((items)=>(
-                                    <div>
-                                         <li>{items.comment},{items.rating} Stars</li>
+                                    <div className='card col-5 mb-3 ms-3'>
+                                        <div className='card-body'>
+                                            <h5 className='card-title'>Nisha Bisht</h5>
+                                            <p className='card-text'>{items.comment}</p>
+                                            <p className='card-text'>{items.rating} stars</p>
+
+
+                                        </div>
+                                         {/* <li>{items.comment},{items.rating} Stars</li> */}
                                     </div>
                                 ))
                             }
-                           
+                           </div>
 
                         </div>
-                    </div>
+                    
 
 
                 </div>
