@@ -57,4 +57,19 @@ const getReview=async(req,res)=>{
     }
 }
 
-module.exports={createReview,getReview};
+const deleteReview=async (req,res)=>{
+   
+    const {id,reviewId}=req.params;
+      try{
+      await Listing.findByIdAndUpdate(id,{$pull : {reviews:reviewId}})
+      await Review.findByIdAndDelete({_id:reviewId})
+      }
+      catch(error){
+           res.send({
+            result:0,
+            error_value:error.message
+           })
+      }
+}
+
+module.exports={createReview,getReview,deleteReview};
