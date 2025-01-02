@@ -7,6 +7,7 @@ import { Route,BrowserRouter, Routes} from 'react-router-dom';
 import Edit from './pages/Edit';
 import Error from './pages/Error';
 import 'bootstrap/dist/css/bootstrap.min.css';
+import Signup from './pages/Signup';
 
 
 function App() {
@@ -19,6 +20,7 @@ function App() {
         <Route path='/create' element={<CreateList/>}></Route>
         <Route path='/Edit' element={<Edit/>}></Route>
         <Route path='/Error' element={<Error/>}></Route>
+        <Route path='/signup' element={<Signup/>}></Route>
       </Routes>
       </BrowserRouter>
       </>
