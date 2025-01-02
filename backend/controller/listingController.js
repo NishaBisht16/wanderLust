@@ -45,6 +45,7 @@ newList.save().then(()=>{
 
 const getAllListing=async(req,res)=>{
     try{
+
         const allListingData=await Listing.find()
         if(allListingData.length>0)
         {
@@ -69,5 +70,6 @@ const getAllListing=async(req,res)=>{
 
     }
 }
+
 
 module.exports={createListing,getAllListing}
