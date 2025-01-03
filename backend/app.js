@@ -6,10 +6,12 @@ const cors = require('cors')
 const session=require('express-session')
 const passport=require('passport')
 const LocalStrategy=require('passport-local')
-const User=require('./models/userModel')
 const listingroute = require('./routes/listingRoute')
 const reviewroute = require('./routes/reviewRoute')
 const authroute=require('./routes/authRoute')
+
+
+
 // const initDB=require('./init/index')
 // initDB();
 // const cookieparser=require("cookie-parser")
@@ -27,13 +29,6 @@ const sessionOption={
     },
 }
 app.use(session(sessionOption))
-app.use(passport.initialize());
-app.use(passport.session());
-passport.use(new LocalStrategy(User.authenticate()))
-passport.serializeUser(User.serializeUser());
-passport.deserializeUser(User.deserializeUser());
-
-
 dotenv.config()
 connectToDB()
 

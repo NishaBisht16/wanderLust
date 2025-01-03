@@ -1,8 +1,10 @@
 const express=require('express')
 const router=express.Router()
-const signupUser=require('../controller/authController')
+const {signupUser,loginUser}=require('../controller/authController')
+const passport=require('passport')
 
 
 router.post('/signup',signupUser)
+router.post('/login', loginUser)
 
 module.exports=router;
