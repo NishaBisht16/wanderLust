@@ -21,10 +21,19 @@ export const AuthProvider=({children})=>{
         else{
             setIsToken(false)
         }
-
     }
+
+        const logout=()=>{
+           
+                localStorage.removeItem('token')
+                setIsToken(false)
+            
+            
+        }
+
+    
     return (
-        <Authcontext.Provider value={{login}}>
+        <Authcontext.Provider value={{login,logout}}>
             {children}
         </Authcontext.Provider>
     )

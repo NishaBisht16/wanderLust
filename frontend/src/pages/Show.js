@@ -10,6 +10,8 @@ import './Show.css'
 
 
 function Show() {
+
+    const token=localStorage.getItem('token')
     const { id } = useParams();
     const [Show, setShow] = useState([])
     const [rating,setRating]=useState(0)
@@ -39,7 +41,7 @@ function Show() {
     }
 
     const deleteData = async () => {
-        const data = await Delete(`deleteListing/${id}`)
+        const data = await Delete(`deleteListing/${id}`,token)
         if (data.result > 0) {
             alert(data.message)
             navigate('/')
@@ -52,13 +54,14 @@ function Show() {
         ShowindividualData()
     }, [])
 
+
     const reviews = async () => {
        
         try{
             
               if(feedback=='')
               {
-                seterror('Please add some coments for review')
+                seterror('Please add some comments for review')
                 return;
               }
             const sendReviews=await Post(`listings/${id}/reviews`,{rating,feedback}) 

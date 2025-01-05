@@ -5,8 +5,10 @@ import { useLocation } from 'react-router-dom';
 import { useNavigate } from 'react-router-dom';
 import Header from '../components/Header';
 import Footer from '../components/Footer';
+ 
 
 function Edit() {
+  const token=localStorage.getItem('token')
 
     const [title,settitle]=useState('')
     const [price,setprice]=useState('')
@@ -24,7 +26,7 @@ function Edit() {
     const editData=async()=>{
       
 
-        const response=await Get(`EditListing/${id}`)
+        const response=await Get(`EditListing/${id}`,token)
         try{
         console.log("id :",id)
         console.log(response)     
@@ -49,7 +51,7 @@ function Edit() {
           alert('Selected fields should not be empty')
           return;
         }
-        const response=await Put(`updateListing/${id}`,{title,price,location,country,image})
+        const response=await Put(`updateListing/${id}`,{title,price,location,country,image},token)
         if(response.result>0)
         {
           alert(response.message)

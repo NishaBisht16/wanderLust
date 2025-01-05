@@ -1,11 +1,14 @@
 const API_URL='http://localhost:8000/api/'
 
-export const Get=async(endpoint)=>{
+export const Get=async(endpoint,token)=>{
     try{
         const response=await fetch(`${API_URL}${endpoint}`,{
             method:'GET',
             headers:{
-                "Content-Type":"application/json"
+                "Content-Type":"application/json",
+                "Authorization": `Bearer ${token}`
+
+
             }
         })
         return await response.json();
@@ -37,13 +40,15 @@ export const Post=async(endpoint,data,token)=>{
     }
 }
 
-export const Put=async(endpoint,data)=>{
+export const Put=async(endpoint,data,token)=>{
     try{
         console.log(data)
         const response=await fetch(`${API_URL}${endpoint}`,{
             method:"PUT",
             headers:{
-                "Content-Type":"application/json"
+                "Content-Type":"application/json",
+                "Authorization": `Bearer ${token}`
+
             },
             body:JSON.stringify(data)
         })
@@ -54,10 +59,13 @@ export const Put=async(endpoint,data)=>{
     }
 }
 
-export const Delete=async(endpoint)=>{
+export const Delete=async(endpoint,token)=>{
     try{
         const response= await fetch(`${API_URL}${endpoint}`,{
-            method:"DELETE"
+            method:"DELETE",
+            headers:{
+                "Authorization": `Bearer ${token}`
+            }
         })
        return await response.json()
     }
