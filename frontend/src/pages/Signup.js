@@ -33,7 +33,13 @@ const Signup = () => {
          email:user.email,
          password:user.password
          })
-        
+         if(data.result>0)
+         {
+          alert(data.message)
+         }
+       else{
+        alert(data.message)
+       }
        }
 
 

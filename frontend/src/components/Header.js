@@ -1,7 +1,9 @@
 import React from 'react'
 import './Header.css'
 
+
 function Header() {
+  const token=localStorage.getItem('token')
   return (
   
         <div className='header-container'>

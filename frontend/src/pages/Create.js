@@ -16,6 +16,8 @@ function CreateList() {
       country:''
     })
 
+    const token = localStorage.getItem('token');
+
     const [error,seterror]=useState({})
 
     const handleInputs=(e)=>{
@@ -28,8 +30,8 @@ function CreateList() {
     const createData=async()=>{
       try{
        
+      
       const validation= AddDataValidation(data)
-      console.log("Errors :",validation)
       seterror(validation)
       if(validation.title || validation.price || validation.location || validation.country)
       {
@@ -42,7 +44,7 @@ function CreateList() {
           image:data.image,
           location:data.location,
           country:data.country
-        })
+        },token)
         if(response.result>0)
         {
           alert(response.message)
