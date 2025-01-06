@@ -18,6 +18,7 @@ function Show() {
     const [feedback,setFeedback]=useState('')
      const [error,seterror]=useState('')
      const [Reviews,setReviews]=useState([])
+     const [owner,setOwner]=useState('')
     
 
     const navigate = useNavigate();
@@ -27,8 +28,10 @@ function Show() {
     const ShowindividualData = async () => {
         try {
             const data = await Get(`showListing/${id}`)
+            console.log(data.owner)
             if (data.result > 0) {
                 setShow(data.result_value)
+                setOwner(data.owner)
             }
             else {
                 setShow(data.error_value)
@@ -116,9 +119,12 @@ function Show() {
                 </div>
                 <div className='row'>
                     <div className="card col-5 offset-3 listing-card " >
+                    <h5 className="card-title title">{Show.title}</h5>
                         <img src={Show.image} class="card-img-top" className='show-img' alt="Listing image" />
                         <div className="card-body">
-                            <h5 className="card-title">{Show.title}</h5>
+                            
+                             <h4> owned by :{owner.username}</h4>
+                            {/* <p className='card-text'>{Show.description}</p> */}
                             <p className="card-text">{(Show.price ?? 0).toLocaleString("en-IN", { style: "currency", currency: "INR" })}</p>
                             <p className="card-text">{Show.country}</p>
                             <p className="card-text">{Show.location}</p>

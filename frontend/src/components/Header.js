@@ -5,6 +5,7 @@ import { useAuth } from '../store/Auth'
 
 function Header() {
   const {logout}=useAuth()
+  const token=localStorage.getItem('token')
   return (
 
     <div className='header-container'>
@@ -16,9 +17,13 @@ function Header() {
         </div>
 
         <div className='ms-auto'>
-          <a href='/signup'>Sign up</a>
-          <a href='/login'>Log in</a>
-          <a href='/' onClick={logout} >Log out</a>
+          {
+            token ? <a href='/login' onClick={logout} >Log out</a> :
+            <>
+             <a href='/login'>Log in</a>
+             <a href='/signup'>Sign up</a>
+            </>
+          }
         </div>
 
       </div>

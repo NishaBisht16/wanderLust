@@ -2,18 +2,19 @@ import React, { useState } from 'react'
 import Header from '../components/Header'
 import validation from './validation/SignupValidation'
 import { Post } from '../services/Api'
+import { useNavigate } from 'react-router-dom'
 
 
 const Signup = () => {
 
+  const navigate=useNavigate()
    const [user,setuser]=useState({
     username:'',
     email:'',
     password:''
    })
-
-
     const [error,seterror]=useState({})
+    
    
        const handleInputs=(e)=>{
          const newUser={...user,[e.target.name]:e.target.value}
@@ -36,6 +37,7 @@ const Signup = () => {
          if(data.result>0)
          {
           alert(data.message)
+          navigate('/login')
          }
        else{
         alert(data.message)
