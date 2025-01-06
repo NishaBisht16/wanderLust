@@ -33,7 +33,6 @@ const createReview=async(req,res)=>{
 const getReview=async(req,res)=>{
     const {id}=req.params
     try{
-        console.log(req.cookies)
         const listingData=await Listing.findById({_id:id})
         const reviews=[]
         for(let i=0; i<listingData.reviews.length; i++)

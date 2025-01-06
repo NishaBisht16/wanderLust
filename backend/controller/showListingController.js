@@ -1,4 +1,5 @@
 const Listing=require('../models/listingModel')
+const User=require('../models/userModel')
 
 const showindividualListing=async(req,res)=>{
     const {id}=req.params;
@@ -8,13 +9,14 @@ const showindividualListing=async(req,res)=>{
         if(Listing.length>0)
         {
         const data=await Listing.findById({_id:id})
-        // res.cookie("Hello","India")
-        // res.cookie("Nisha","Suraj")
-        // console.log("sent you some cookies")
+        const owner=await User.findById({_id:data.owner})
+        console.log(owner)
         
         res.send({
             result:1,
-            result_value:data
+            result_value:data,
+            owner:owner
+            
         })
         }
     else{

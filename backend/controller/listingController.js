@@ -1,14 +1,22 @@
 const Listing=require('../models/listingModel')
+const User=require('../models/userModel')
+const jwt=require('jsonwebtoken')
+const verifyUser=require('../middleware/authmiddelware')
 
 //Create Listing
 const createListing=async(req,res)=>{
     
-
     const {title,price,location,country,image}=req.body
     const existedData=await Listing.find()
+    // console.log(userToken)
+    // console.log("user",req.user)
+    // console.log(req.user.user.username)
+    // console.log(req.user.user._id)
+
+    
    for(let i=0; i<existedData.length; i++)
    {
-       if((title==existedData[i].title) && (price==existedData[i].price) &&(location==existedData[i].location)&& (country==existedData[i].country) &&(image==existedData[i].image))
+       if((title==existedData[i].title) && (price==existedData[i].price) &&(location==existedData[i].location)&& (country==existedData[i].country))
        {
           res.send({
             result:0,
@@ -22,7 +30,9 @@ const createListing=async(req,res)=>{
         price:price,
         location:location,
         country:country,
-        image:image
+        image:image,
+        owner:req.user.user._id
+
     })
 
 

@@ -1,4 +1,5 @@
 const mongoose=require('mongoose')
+const Schema=require('mongoose')
 
 const reviewSchema=new mongoose.Schema({
      comment:String,
@@ -10,7 +11,8 @@ const reviewSchema=new mongoose.Schema({
      createdAt:{
         type:Date,
         default:Date.now()
-     }
+     },
+
 })
 
 const Review=mongoose.model("Review",reviewSchema)

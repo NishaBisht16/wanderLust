@@ -43,8 +43,6 @@ const signupUser=async(req,res)=>{
 const loginUser=async(req,res)=>{
      try{
         const {username,password}=req.body
-        
-
         const user=await User.findOne({username})
         if (!user) {
             
@@ -53,7 +51,6 @@ const loginUser=async(req,res)=>{
         }
         const isPasswordValid = await bcrypt.compare(password, user.password);
         if (!isPasswordValid) {
-            console.log('Incoreect password')
             return res.status(401).json({ result: 0, Password_error: "Incorrect password." });
         }
 
