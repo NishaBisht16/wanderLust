@@ -9,8 +9,10 @@ import './Show.css'
 
 
 
-function Show() {
 
+function Show() {
+    
+    const currUser=localStorage.getItem("Id")
     const token=localStorage.getItem('token')
     const { id } = useParams();
     const [Show, setShow] = useState([])
@@ -67,7 +69,7 @@ function Show() {
                 seterror('Please add some comments for review')
                 return;
               }
-            const sendReviews=await Post(`listings/${id}/reviews`,{rating,feedback}) 
+            const sendReviews=await Post(`listings/${id}/reviews`,{rating,feedback},token) 
 
             if(sendReviews.result>0)
             { 
@@ -86,7 +88,8 @@ function Show() {
     }
     
     const getReviews=async()=>{
-        const response=await Get(`listings/reviews/${id}`)
+        const response=await Get(`listings/reviews/${id}`,token)
+        console.log("response:",response)
         if(response.result>0)
         {
             setReviews(response.result_value)
@@ -101,7 +104,7 @@ function Show() {
     {
         console.log("reviewId:",reviewId)
         console.log("ListingId:",id)
-        const response=await Delete(`listng/${id}/deleteReview/${reviewId}`)
+        const response=await Delete(`listng/${id}/deleteReview/${reviewId}`,token)
         
     }
  
@@ -128,12 +131,22 @@ function Show() {
                             <p className="card-text">{(Show.price ?? 0).toLocaleString("en-IN", { style: "currency", currency: "INR" })}</p>
                             <p className="card-text">{Show.country}</p>
                             <p className="card-text">{Show.location}</p>
+                            {
+                              currUser && owner._id ==currUser ?<>
+                                
                             <button className='btn btn-success ' onClick={() => navigate('/Edit', { state: { id: Show._id } })} style={{ fontWeight: "bold" }}>Edit</button>
                             <button className='btn btn-danger' onClick={deleteData} style={{ marginLeft: "20px", fontWeight: "bold" }}>Delete</button>
+                                </>:null
+                            }
                         </div>
                         </div>
+                     
+                        
                         <div className='col-5 offset-3  mb-3 mt-3'>
                             <hr />
+                            {
+                            currUser && owner._id ==currUser ?
+                            <>
                             <h4>Leave a Review</h4>
                             <form onSubmit={(e)=>{e.preventDefault()}}>
                                 <div className='mb-3 mt-3' style={{ display: "flex", alignItems: "center", gap: '5px' }}>
@@ -147,7 +160,8 @@ function Show() {
 
                                 </div>
                                 <button className='btn btn-success' onClick={reviews}>submit</button>
-                            </form>
+                            </form></>:null
+                      }
                              <p style={{marginTop:"20px",fontSize:"18px"}}><b>All Reviews</b></p>
                              <div className='row'>
                             {
@@ -166,7 +180,6 @@ function Show() {
                            </div>
 
                         </div>
-                    
 
 
                 </div>

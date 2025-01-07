@@ -15,6 +15,7 @@ const [passworderror,setpassworderror]=useState('')
 
 
 const {login}=useAuth()
+const {currentUser}=useAuth()
 
   const loginUser=async()=>{
 
@@ -27,7 +28,11 @@ const {login}=useAuth()
 
     if(data.result>0)
     {
+        
+        console.log("current logged in user id:",data.curruser._id)
         login(data.token)
+        currentUser(data.curruser._id)
+        
         alert(data.message)
         navigate('/')
     }

@@ -3,12 +3,15 @@ import { createContext, useContext,useState,useEffect } from "react";
 export const Authcontext=createContext()
 
 export const AuthProvider=({children})=>{
-    const token = localStorage.getItem("token");
+  
     const [isToken, setIsToken] = useState(false);
+    const [currUser,setcurrUser]=useState(false)
 
     useEffect(() => {
         // Check for token in localStorage
         const token = localStorage.getItem("token");
+        const currentuserId=localStorage.getItem("Id")
+        setcurrUser(!!currentuserId)
         setIsToken(!!token); // Set to true if token exists, false otherwise
       }, []);
 
@@ -26,14 +29,24 @@ export const AuthProvider=({children})=>{
         const logout=()=>{
            
                 localStorage.removeItem('token')
+                localStorage.removeItem('Id')
                 setIsToken(false)
-            
-            
+        }
+
+        const currentUser=(currentUserId)=>{
+            if(!currUser)
+            {
+                localStorage.setItem('Id',currentUserId)
+                setcurrUser(true)
+            }
+            else{
+                setcurrUser(false)
+            }
         }
 
     
     return (
-        <Authcontext.Provider value={{login,logout}}>
+        <Authcontext.Provider value={{login,logout,currentUser}}>
             {children}
         </Authcontext.Provider>
     )
