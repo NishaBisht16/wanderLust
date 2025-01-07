@@ -10,7 +10,6 @@ const showindividualListing=async(req,res)=>{
         {
         const data=await Listing.findById({_id:id})
         const owner=await User.findById({_id:data.owner})
-        console.log(owner)
         
         res.send({
             result:1,

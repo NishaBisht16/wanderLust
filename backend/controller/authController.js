@@ -44,6 +44,7 @@ const loginUser=async(req,res)=>{
      try{
         const {username,password}=req.body
         const user=await User.findOne({username})
+        
         if (!user) {
             
             return res.status(400).json({ result: 0, username_error: "username does not exist." });
@@ -58,8 +59,11 @@ const loginUser=async(req,res)=>{
         res.send({
             result:1,
             message:"Login successfull",
-            token:token
+            token:token,
+            curruser:user
         })
+
+      console.log(req.user)  
 }
      catch(error)
      {

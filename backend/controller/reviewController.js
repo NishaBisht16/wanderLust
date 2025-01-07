@@ -5,11 +5,13 @@ const Review=require('../models/reviewModel')
 const createReview=async(req,res)=>{
     const {id}=req.params;
     try{
+        
         let listings=await Listing.findById({_id:id})
         const {rating,feedback}=req.body
         const newReview=new Review({
         comment:feedback,
-        rating:rating
+        rating:rating,
+        author:req.user.user._id
     })
     listings.reviews.push(newReview)
     await newReview.save()
