@@ -1,5 +1,6 @@
 const Listing=require('../models/listingModel')
 const Review=require('../models/reviewModel')
+const User=require('../models/userModel')
 
 
 const createReview=async(req,res)=>{
@@ -33,20 +34,39 @@ const createReview=async(req,res)=>{
 }
 
 const getReview=async(req,res)=>{
+    debugger;
     const {id}=req.params
     try{
+         
         const listingData=await Listing.findById({_id:id})
+         
+       
         const reviews=[]
         for(let i=0; i<listingData.reviews.length; i++)
         {
-            const reviewsData=await Review.findById({_id:listingData.reviews[i]})
-             reviews.push(reviewsData)
+           
+            const reviewsData=await Review.findById({_id:listingData.reviews[i]})           
+            reviews.push(reviewsData)
+           
+           
         }
+       const auther=[]
+        for(let i=0; i<reviews.length; i++)
+        {
+            
+            const getAuthordata=await User.findById({_id:reviews[i].author})
+            auther.push(getAuthordata)
+            console.log(auther)
+           
+        }
+        
         if(reviews)
         {
             res.send({
             result:1,
-            result_value:reviews
+            result_value:reviews,
+            auther:auther
+
         }) 
     }
     }
@@ -65,6 +85,7 @@ const deleteReview=async (req,res)=>{
     const {id,reviewId}=req.params;
       try{
       await Listing.findByIdAndUpdate(id,{$pull : {reviews:reviewId}})
+
       await Review.findByIdAndDelete({_id:reviewId})
       }
       catch(error){
