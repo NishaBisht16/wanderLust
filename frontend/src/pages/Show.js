@@ -22,7 +22,10 @@ function Show() {
     const [Reviews, setReviews] = useState([])
     const [owner, setOwner] = useState('')
     const [auther, setauther] = useState({})
+    const [autherId,setautherId]=useState('')
 
+    const loggedInUserId=localStorage.getItem("Id")
+    console.log("loggedInUserId :",loggedInUserId)
 
     const navigate = useNavigate();
 
@@ -91,7 +94,9 @@ function Show() {
     
             if (response.result > 0) {
                 const authorNames = response.auther.map((item) => item.username);
-                setauther(authorNames); // Store all author names in an array
+                const authorId = response.auther.map((item) => item._id);
+                setautherId(authorId)
+                setauther(authorNames); 
                 setReviews(response.result_value);
             } else {
                 console.log(response.error_value);
@@ -102,10 +107,17 @@ function Show() {
     };
     
 
-    const deleteReviews = async (reviewId) => {
-        console.log("reviewId:", reviewId)
-        console.log("ListingId:", id)
-        const response = await Delete(`listng/${id}/deleteReview/${reviewId}`, token)
+    const deleteReviews = async (reviewId,autherId) => {
+        if(loggedInUserId==autherId)
+        {
+            console.log("ListingId:", id)
+            const response = await Delete(`listng/${id}/deleteReview/${reviewId}`, token)
+            alert("review deleted.")
+        }
+        else{
+            alert("You are not a auther of this review you can not delete it..")
+        }
+        
 
     }
 
@@ -174,7 +186,7 @@ function Show() {
                                                     <h5 className='card-title'>{auther[index]}</h5>
                                                     <p className='card-text'>{items.comment}</p>
                                                     <p className='card-text'>{items.rating} stars</p>
-                                                    <button className='btn btn-sm btn-danger mb-3' onClick={() => deleteReviews(items._id)}>Delete</button>
+                                                    <button className='btn btn-sm btn-danger mb-3' onClick={() => deleteReviews(items._id,autherId[index])}>Delete</button>
                                                 </div>
                                             </div>
                                         
