@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom'
 import { Delete, Get, Post } from '../services/Api';
-import rupee from '../images/rupee.svg'
 import { useNavigate } from 'react-router-dom';
 import Header from '../components/Header';
 import Footer from '../components/Footer';
 import './Show.css'
+import './Style.css'
 
 
 
@@ -14,6 +14,9 @@ function Show() {
 
     const currUser = localStorage.getItem("Id")
     const token = localStorage.getItem('token')
+    const loggedInUserId = localStorage.getItem("Id")
+    const navigate = useNavigate();
+
     const { id } = useParams();
     const [Show, setShow] = useState([])
     const [rating, setRating] = useState(0)
@@ -22,12 +25,11 @@ function Show() {
     const [Reviews, setReviews] = useState([])
     const [owner, setOwner] = useState('')
     const [auther, setauther] = useState({})
-    const [autherId,setautherId]=useState('')
+    const [autherId, setautherId] = useState('')
 
-    const loggedInUserId=localStorage.getItem("Id")
-    console.log("loggedInUserId :",loggedInUserId)
 
-    const navigate = useNavigate();
+
+
 
 
 
@@ -49,6 +51,7 @@ function Show() {
         }
     }
 
+
     const deleteData = async () => {
         const data = await Delete(`deleteListing/${id}`, token)
         if (data.result > 0) {
@@ -62,6 +65,7 @@ function Show() {
     useEffect(() => {
         ShowindividualData()
     }, [])
+
 
 
     const reviews = async () => {
@@ -88,15 +92,17 @@ function Show() {
         }
     }
 
+
+
     const getReviews = async () => {
         try {
             const response = await Get(`listings/reviews/${id}`, token);
-    
+
             if (response.result > 0) {
                 const authorNames = response.auther.map((item) => item.username);
                 const authorId = response.auther.map((item) => item._id);
                 setautherId(authorId)
-                setauther(authorNames); 
+                setauther(authorNames);
                 setReviews(response.result_value);
             } else {
                 console.log(response.error_value);
@@ -105,26 +111,28 @@ function Show() {
             console.error(error);
         }
     };
-    
 
-    const deleteReviews = async (reviewId,autherId) => {
-        if(loggedInUserId==autherId)
-        {
+
+
+    const deleteReviews = async (reviewId, autherId) => {
+        if (loggedInUserId == autherId) {
             console.log("ListingId:", id)
             const response = await Delete(`listng/${id}/deleteReview/${reviewId}`, token)
             alert("review deleted.")
         }
-        else{
+        else {
             alert("You are not a auther of this review you can not delete it..")
         }
-        
-
     }
 
     useEffect(() => {
         getReviews()
     }, [])
 
+
+    const handlechange=(e)=>{
+        setRating(e.target.value);
+    }
     return (
         <div className='main'>
             <Header />
@@ -157,39 +165,52 @@ function Show() {
 
                     <div className='col-5 offset-3  mb-3 mt-3'>
                         <hr />
-                       
-                                <>
-                                    <h4>Leave a Review</h4>
-                                    <form onSubmit={(e) => { e.preventDefault() }}>
-                                        <div className='mb-3 mt-3' style={{ display: "flex", alignItems: "center", gap: '5px' }}>
-                                            <label htmlFor='rating' className='form-label mb-3'>Rating</label>
-                                            <input type='range' min='0' max='5' id='rating' name='review[rating]' className='form-range' onChange={(e) => setRating(e.target.value)}></input>
-                                        </div>
-                                        <div className='mb-3 mt-3'>
-                                            <label htmlFor='comment' className='form-label'>Comment</label>
-                                            <textarea type='range' rows='5' cols='30' id='comment' name='review[comment]' className='form-control' onChange={(e) => setFeedback(e.target.value)}></textarea>
-                                            {error && <p className='error'>{error}</p>}
 
-                                        </div>
-                                        <button className='btn btn-success' onClick={reviews}>submit</button>
-                                    </form></>
-                        
+                      
+                            <h4>Leave a Review</h4>
+                         
+                            
+                            <div className='mb-3 mt-3'>
+                            <label htmlFor='rating' className='form-label mb-3'>Rating</label>
+                        <fieldset class="starability-slot">
+                            <input type="radio" id="no-rate" class="input-no-rate" name='review[rating]' value="1" checked aria-label="No rating." onChange={handlechange} />
+                            <input type="radio" id="first-rate1" name='review[rating]' value="1" onChange={handlechange}/>
+                            <label for="first-rate1" title="Terrible">1 star</label>
+                            <input type="radio" id="first-rate2" name='review[rating]' value="2" onChange={handlechange} />
+                            <label for="first-rate2" title="Not good">2 stars</label>
+                            <input type="radio" id="first-rate3" name='review[rating]'value="3" onChange={handlechange}/>
+                            <label for="first-rate3" title="Average">3 stars</label>
+                            <input type="radio" id="first-rate4" name='review[rating]' value="4" onChange={handlechange}/>
+                            <label for="first-rate4" title="Very good">4 stars</label>
+                            <input type="radio" id="first-rate5" name='review[rating]' value="5" onChange={handlechange} />
+                            <label for="first-rate5" title="Amazing">5 stars</label>
+                        </fieldset>
+                      </div>
+                      <div className='mb-3 mt-3'>
+                                    <label htmlFor='comment' className='form-label'>Comment</label>
+                                    <textarea type='range' rows='5' cols='30' id='comment' name='review[comment]' className='form-control' onChange={(e) => setFeedback(e.target.value)}></textarea>
+                                    {error && <p className='error'>{error}</p>}
+
+                                </div>
+                                <button className='btn btn-success' onClick={reviews}>submit</button>
+                                <hr />
                         <p style={{ marginTop: "20px", fontSize: "18px" }}><b>All Reviews</b></p>
                         <div className='row'>
                             {
                                 Reviews && Reviews.length > 0 ? (
-                                    Reviews.map((items,index) => (
-                                        
-                                            <div className='card col-5 mb-3 ms-3' key={items._id}>
-                                                <div className='card-body'>
-                                                    
-                                                    <h5 className='card-title'>{auther[index]}</h5>
-                                                    <p className='card-text'>{items.comment}</p>
-                                                    <p className='card-text'>{items.rating} stars</p>
-                                                    <button className='btn btn-sm btn-danger mb-3' onClick={() => deleteReviews(items._id,autherId[index])}>Delete</button>
-                                                </div>
+                                    Reviews.map((items, index) => (
+
+                                        <div className='card col-5 mb-3 ms-3' key={items._id}>
+                                            <div className='card-body'>
+
+                                                <h5 className='card-title'>{auther[index]}</h5>
+                                                <p class="starability-result" data-rating={items.rating}> </p>
+                                                <p className='card-text'>{items.comment}</p>
+                                                
+                                                <button className='btn btn-sm btn-danger mb-3' onClick={() => deleteReviews(items._id, autherId[index])}>Delete</button>
                                             </div>
-                                        
+                                        </div>
+
                                     ))
                                 ) : (
                                     <p>No reviews available.</p>
