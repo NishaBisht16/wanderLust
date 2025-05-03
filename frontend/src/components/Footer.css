@@ -1,0 +1,35 @@
+.footer-container{
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+    flex-wrap: wrap;
+    height: 8rem;
+    background-color: #ebebeb;
+    text-align: center;
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+    
+}
+.social-info,
+.info-Link,.brand-info
+{
+    width: 100%;
+ 
+}
+
+
+.social-info img{
+    font-size: 1.2rem;
+    margin-right: 1.5rem;
+}
+
+.info-Link a{
+    text-decoration: none;
+    color: #222222;
+    padding: 10px;
+   
+}
+.info-Link a:hover{
+    text-decoration: underline;
+}
