@@ -1,74 +1,165 @@
-const User=require('../models/userModel')
-const bcrypt=require('bcrypt')
-const jwt=require('jsonwebtoken')
-const secretKey="@#$#@%$^RGERGD"
-const signupUser=async(req,res)=>{
-    try{
-        const {username,email,password}=req.body
-        const hashedPassword = await bcrypt.hash(password, 10);
 
-         const newUser=new User({
-             username:username,
-             email:email,
-             password:hashedPassword
-         })
+const {googleloginservice}=require('../services/googleLoginService')
+const {signupUserService,loginUserService,forgotPasswordService,resetpasswordService}=require('../services/authService')
 
-        await newUser.save()
+const signupUser = async (req, res) => {
+  try {
 
-    res.send({
+    const { username, email, password } = req.body;
+
+    const response=await signupUserService({username,email,password})
+
+    if(response.success)
+    {
+      res.status(200).json({
         result:1,
-        message:"Signup Successfully"
-    })
- 
+        message:response.message,
+        user:response.newUser
+
+      })
     }
-    catch (error) {
-   
-        if (error.code === 11000) {
-            const field = Object.keys(error.keyValue)[0]; 
-            const value = error.keyValue[field]; 
+    else{
+      res.status(400).json({
+        result:0,
+        message:response.message
 
-            res.status(400).send({
-                message: `The ${field} '${value}' is already taken. Please choose a different ${field}.`
-            });
-        } else {
-            // Handle other types of errors
-            res.status(500).send({
-                message: error.message
-            });
-        }
-     }
+      })
+    }
 
-}
+  } catch (error) {
+     res.status(500).json({result:0,message:error.message})
+  }
+};
 
 const loginUser=async(req,res)=>{
      try{
-        const {username,password}=req.body
-        const user=await User.findOne({username})
-        
-        if (!user) {
-            
-            return res.status(400).json({ result: 0, username_error: "username does not exist." });
+        const {email,password}=req.body
+        console.log(req.body)
+        const response=await loginUserService({email,password})
 
-        }
-        const isPasswordValid = await bcrypt.compare(password, user.password);
-        if (!isPasswordValid) {
-            return res.status(401).json({ result: 0, Password_error: "Incorrect password." });
-        }
-
-        const token = jwt.sign({user}, secretKey, { expiresIn: "24h" });
-        res.send({
+        if(response.success)
+        {
+          res.status(200).json({
             result:1,
-            message:"Login successfull",
-            token:token,
-            curruser:user
-        })
+            message:response.message,
+            token:response.token,
+            curruser:response.user
 
-      console.log(req.user)  
-}
+
+          })
+        }
+        else{
+          res.status(400).json({
+            result:0,
+          message: response.message || null,
+        email_error: response.email_error || null,
+        password_error: response.password_error || null,
+
+
+          })
+        }
+     }
      catch(error)
      {
+        res.status(500).json({
+          result:0,
+          message:error.message
+        })
 
      }
 }
 
-module.exports={signupUser,loginUser};
+
+
+const googleLogin = async (req, res) => {
+  try {
+    const { token } = req.body;
+
+    if (!token) {
+      return res.status(400).json({
+        result: 0,
+        result_value: "Google token is missing",
+      });
+    }
+
+    const response = await googleloginservice(token);
+
+    if (response.result === 1) {
+      return res.status(200).json({
+        result: 1,
+        result_value: response.result_value,
+      });
+    } else {
+      return res.status(400).json({
+        result: 0,
+        result_value: response.result_value,
+      });
+    }
+  } catch (error) {
+    console.error("Google login controller error:", error.message);
+    return res.status(500).json({
+      result: 0,
+      result_value: "Server error during Google login",
+      error_value: error.message,
+    });
+  }
+};
+
+const forgotpassword=async(req,res)=>{
+  try{
+    const {email}=req.body;
+    console.log(email)
+
+    const response=await forgotPasswordService(email)
+    if(response.success){
+      res.status(200).json({
+        result:1,
+        message:response.message,
+
+      }) 
+    }
+    else{
+      res.status(400).json({
+        result:0,
+        message:response.message
+      })
+    }
+
+  }catch(error)
+  {
+    return res.status(500).json({result:0, message:error.message})
+
+  }
+}
+
+
+const resetPassword=async(req,res)=>{
+  try{
+    const {token,newpassword,confirmPassword}=req.body
+    const response= await resetpasswordService({token,newpassword,confirmPassword})
+
+    if(response.success){
+      res.status(200).json({
+        result:1,
+        message:response.message
+      })
+    }
+    else{
+      res.status(400).json({
+        result:0,
+        message:response.message
+      })
+    }
+
+  }catch(error)
+  {
+    res.status(500).json({
+      result:0,
+      message:error.message
+    })
+
+  }
+}
+
+
+module.exports={signupUser,loginUser,googleLogin,forgotpassword,resetPassword};

@@ -16,7 +16,7 @@ router.get('/allListing',getAllListing)
 router.get('/EditListing/:id',verifyUser,editListing)
 router.put('/updateListing/:id',verifyUser,upload.single('image'),updateListing)
 router.delete('/deleteListing/:id',verifyUser,deleteListing)
-router.get('/showListing/:id',verifyUser,showindividualListing)
+router.get('/showListing/:id',showindividualListing)
 
 
 module.exports=router;
