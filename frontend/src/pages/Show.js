@@ -7,6 +7,7 @@ import Footer from '../components/Footer';
 import './Show.css'
 import './Style.css'
 import { GoogleMap, useJsApiLoader } from '@react-google-maps/api'
+import { MapContainer } from '../components/MapContainer/MapContainer';
 
 const containerStyle = {
     width: '600px',
@@ -15,33 +16,33 @@ const containerStyle = {
 
 function Show() {
 
-    const [viewport, setViewport] = useState({
-        latitude: 28.6448,
-        longitude: 77.216,
-        zoom: 6
-    });
+    // const [viewport, setViewport] = useState({
+    //     latitude: 28.6448,
+    //     longitude: 77.216,
+    //     zoom: 6
+    // });
 
-    const center = {
-        lat: viewport.latitude,
-        lng: viewport.longitude,
-    }
+    // const center = {
+    //     lat: viewport.latitude,
+    //     lng: viewport.longitude,
+    // }
 
-    const { isLoaded } = useJsApiLoader({
-        id: 'google-map-script',
-        googleMapsApiKey: process.env.REACT_APP_GOOGLE_MAPS_API_KEY, 
-    })
+    // const { isLoaded } = useJsApiLoader({
+    //     id: 'google-map-script',
+    //     googleMapsApiKey: ""
+    // })
 
-    const [map, setMap] = useState(null)
+    // const [map, setMap] = useState(null)
 
-    const onLoad = React.useCallback(function callback(map) {
-        const bounds = new window.google.maps.LatLngBounds(center)
-        map.fitBounds(bounds)
-        setMap(map)
-    }, [center])
+    // const onLoad = React.useCallback(function callback(map) {
+    //     const bounds = new window.google.maps.LatLngBounds(center)
+    //     map.fitBounds(bounds)
+    //     setMap(map)
+    // }, [center])
 
-    const onUnmount = React.useCallback(function callback() {
-        setMap(null)
-    }, [])
+    // const onUnmount = React.useCallback(function callback() {
+    //     setMap(null)
+    // }, [])
 
     const currUser = localStorage.getItem("Id")
     const token = localStorage.getItem('token')
@@ -72,15 +73,15 @@ function Show() {
         }
     }
 
-    useEffect(() => {
-        if (Show.location && Show.location.latitude && Show.location.longitude) {
-            setViewport({
-                latitude: Show.location.latitude,
-                longitude: Show.location.longitude,
-                zoom: 6
-            });
-        }
-    }, [Show]);
+    // useEffect(() => {
+    //     if (Show.location && Show.location.latitude && Show.location.longitude) {
+    //         setViewport({
+    //             latitude: Show.location.latitude,
+    //             longitude: Show.location.longitude,
+    //             zoom: 6
+    //         });
+    //     }
+    // }, [Show]);
 
     const deleteData = async () => {
         const data = await Delete(`deleteListing/${id}`, token)
@@ -209,20 +210,12 @@ function Show() {
                             </div>
                         )}
 
-                        {isLoaded && (
+                        
                             <div className='col-8  mb-3 mt-3'>
                                 <h4>Where you'll be</h4>
-                            <GoogleMap
-                                mapContainerStyle={containerStyle}
-                                center={center}
-                                zoom={10}
-                                onLoad={onLoad}
-                                onUnmount={onUnmount}
-                            >
-                                {/* Add Markers or InfoWindows if needed */}
-                            </GoogleMap>
+                                <MapContainer address={Show.country}/>
                             </div>
-                        )}
+                        
                     </div>
                 </div>
             </div>

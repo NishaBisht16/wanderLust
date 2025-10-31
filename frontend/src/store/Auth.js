@@ -6,6 +6,8 @@ export const AuthProvider=({children})=>{
   
     const [isToken, setIsToken] = useState(false);
     const [currUser,setcurrUser]=useState(false)
+    const [searchquery,setSearchquery]=useState('')
+
 
     useEffect(() => {
         // Check for token in localStorage
@@ -46,7 +48,7 @@ export const AuthProvider=({children})=>{
 
     
     return (
-        <Authcontext.Provider value={{login,logout,currentUser}}>
+        <Authcontext.Provider value={{login,logout,currentUser,searchquery,setSearchquery}}>
             {children}
         </Authcontext.Provider>
     )

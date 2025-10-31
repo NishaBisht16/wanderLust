@@ -1,13 +1,15 @@
-import React from 'react'
+import React, { useContext } from 'react'
 import './Header.css'
 import { useAuth } from '../store/Auth'
 import search from '../images/search.png'
 import magnifying from '../images/magnifying-glass.png'
-
+import { useState } from 'react'
 
 function Header() {
   const {logout}=useAuth()
   const token=localStorage.getItem('token')
+  const {setSearchquery}=useAuth()
+
   return (
 
     <div className='header-container'>
@@ -24,12 +26,14 @@ function Header() {
     className="form-control me-2 search-input"
     type="search"
     placeholder="Search Destinations"
+    onChange={(e)=>setSearchquery(e.target.value)}
     
   />
   <button className="btn btn-search d-flex align-items-center rounded-pill" type="submit" >
     <img
       src={magnifying}
       alt="Search Icon" 
+      
     />
     <span>Search</span>
   </button>

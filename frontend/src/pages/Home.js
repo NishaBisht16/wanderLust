@@ -16,9 +16,13 @@ import farming from '../images/livestock.png'
 import snow from '../images/ice-crystal.png'
 import dome from '../images/domes.png'
 import boat from '../images/boat.png'
+import { useAuth } from '../store/Auth';
 function HomeScreen() {
   const [listData, setlistData] = useState([])
   const [isChecked, setIsChecked] = useState(false);
+
+  const {searchquery}=useAuth()
+  console.log("searchquery",searchquery)
 
   const checkToggel = () => {
     if (isChecked) {
@@ -115,7 +119,14 @@ function HomeScreen() {
         </div>
         <div className='row row-cols-lg-3 row-cols-md-2 row-cols-sm-1 mt-3'>
           {
-            listData.map((data) => (
+
+            listData && listData.filter(
+              (item) =>
+                !searchquery ||
+                
+                item.title?.toLowerCase().includes(searchquery.toLowerCase())
+            )
+            .map((data) => (
               <div key={data._id}>
                 <a href={`/show/${data._id}`} className='listing-link'>
                   <div className="card col listing-card " style={{ width: '30rem' }}>

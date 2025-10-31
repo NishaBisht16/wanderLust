@@ -3,6 +3,7 @@ import Header from '../components/Header'
 import validation from './validation/SignupValidation'
 import { Post } from '../services/Api'
 import { useNavigate } from 'react-router-dom'
+import { toast } from 'react-toastify'
 
 
 const Signup = () => {
@@ -34,13 +35,20 @@ const Signup = () => {
          email:user.email,
          password:user.password
          })
+         console.log("SIGNUP DATA",data)
          if(data.result>0)
          {
-          alert(data.message)
-          navigate('/login')
+          toast.success(data.message,{
+            autoClose:1000,
+            onClose:()=>{
+               navigate('/login')
+
+            }
+          })
+         
          }
        else{
-        alert(data.message)
+        toast.error(data.message)
        }
        }
 
@@ -99,7 +107,12 @@ const Signup = () => {
         {error.password && <p className='error'>{error.password}</p>}
 
         </div>
+        <div className='text-center'>
+            <p>Already have and account? <a href='/login' className='text-decoration-none'>Log in</a></p>
         <button className='btn btn-success' onClick={signup}>Signup</button>
+
+        </div>
+      
                 </form>
 
             </div>
