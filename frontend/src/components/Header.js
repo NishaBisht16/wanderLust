@@ -42,7 +42,7 @@ function Header() {
 </nav>
 
         <div className='ms-auto'>
-        <a href='/create'>Airbnb your Home</a>
+        <a href='/create'>Add your Home</a>
           {
             token ? <a href='/login' onClick={logout} ><b>Log out</b></a> :
             <>
