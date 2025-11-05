@@ -1,6 +1,15 @@
 const API_URL=process.env.REACT_APP_API_URL
 
+let setGlobalLoading = null;
+
+export const setGlobalLoadingFn = (fn) => {
+  setGlobalLoading = fn;
+};
+
+
 export const Get=async(endpoint,token)=>{
+      if (setGlobalLoading) setGlobalLoading(true);
+
     try{
         const response=await fetch(`${API_URL}${endpoint}`,{
             method:'GET',
@@ -18,6 +27,9 @@ export const Get=async(endpoint,token)=>{
         console.log(error)
 
     }
+    finally {
+    if (setGlobalLoading) setGlobalLoading(false); 
+  }
 }
 
 export const Post=async(endpoint,data,token)=>{

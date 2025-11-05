@@ -15,10 +15,13 @@ import { AuthProvider, useAuth } from './store/Auth';
 import { Navigate } from 'react-router-dom';
 import { ToastContainer } from "react-toastify";
 import { GoogleOAuthProvider } from '@react-oauth/google';
+import Loader from './components/Loader/Loader';
+import LoaderConnector from './components/Loader/LoaderConnector';
+import { LoaderProvider } from './components/Loader/LoaderContext';
 const token = localStorage.getItem('token');
 
 const CLIENT_ID= process.env.REACT_APP_GOOGLE_CLIENT_ID
-console.log("client id",CLIENT_ID)
+
 
 
 
@@ -27,7 +30,14 @@ function App() {
   return (
  
       <AuthProvider>
-        <GoogleOAuthProvider clientId='142893536267-mqkgjue0mrl6eehsdc5rtl2ap3f7apup.apps.googleusercontent.com'>
+         <LoaderProvider>
+        <GoogleOAuthProvider clientId={CLIENT_ID}>
+         
+            <Loader/>
+            <LoaderConnector/>
+          
+
+
           <Customroute />
         </GoogleOAuthProvider>
         <ToastContainer
@@ -42,6 +52,7 @@ function App() {
           pauseOnHover
           theme="colored"
         />
+        </LoaderProvider>
       </AuthProvider>
 
   );
