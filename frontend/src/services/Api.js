@@ -34,7 +34,6 @@ export const Get=async(endpoint,token)=>{
 
 export const Post=async(endpoint,data,token)=>{
     try{
-        console.log("token",token)
         
         const response=await fetch(`${API_URL}${endpoint}`,{
             method:"POST",
