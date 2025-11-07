@@ -5,7 +5,7 @@ import Header from '../components/Header';
 import Footer from '../components/Footer';
 import './Create.css'
 import AddDataValidation from './validation/CreateValidation';
-console.log(process.env.REACT_APP_API_URL)
+
 const API_URL=process.env.REACT_APP_API_URL
 
 function CreateList() {
@@ -18,12 +18,8 @@ function CreateList() {
     })
  const [image,setimage]=useState('')
     
-console.log(image)
-console.log("title",data.title)
-console.log("price",data.price)
-console.log("location",data.location)
-console.log("country",data.country)
-    const token = localStorage.getItem('token');
+
+    const userId = localStorage.getItem('userId');
 
     const [error,seterror]=useState({})
 
@@ -51,13 +47,12 @@ console.log("country",data.country)
       formData.append('image',image)
       formData.append('location',data.location)
       formData.append('country',data.country)
+      formData.append('owner',userId)
       
         
       const response = await fetch(`${API_URL}createListing`, {
         method: 'POST',
-        headers: {
-          'Authorization': `Bearer ${token}`, 
-        },
+        
         body: formData, 
       });
         const Result=await response.json()

@@ -27,10 +27,10 @@ const Login = () => {
         }
 
         const data = await Post('auth/login', { email, password })
-        console.log("data", data)
+        
 
         if (data.result > 0) {
-
+           
             login(data.token)
             currentUser(data.curruser._id)
 
@@ -62,7 +62,9 @@ const Login = () => {
 
             }
             const data = await Post('auth/googlelogin', model)
+            console.log("data",data)
             if (data.result == 1) {
+
                 login(data.result_value)
                 navigate('/')
 

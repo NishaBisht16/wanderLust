@@ -12,7 +12,7 @@ export const AuthProvider=({children})=>{
     useEffect(() => {
         // Check for token in localStorage
         const token = localStorage.getItem("token");
-        const currentuserId=localStorage.getItem("Id")
+        const currentuserId=localStorage.getItem("userId")
         setcurrUser(!!currentuserId)
         setIsToken(!!token); // Set to true if token exists, false otherwise
       }, []);
@@ -31,14 +31,14 @@ export const AuthProvider=({children})=>{
         const logout=()=>{
            
                 localStorage.removeItem('token')
-                localStorage.removeItem('Id')
+                localStorage.removeItem('userId')
                 setIsToken(false)
         }
 
         const currentUser=(currentUserId)=>{
             if(!currUser)
             {
-                localStorage.setItem('Id',currentUserId)
+                localStorage.setItem('userId',currentUserId)
                 setcurrUser(true)
             }
             else{

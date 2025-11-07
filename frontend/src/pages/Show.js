@@ -44,9 +44,6 @@ function Show() {
     //     setMap(null)
     // }, [])
 
-    const currUser = localStorage.getItem("Id")
-    const token = localStorage.getItem('token')
-    const loggedInUserId = localStorage.getItem("Id")
     const navigate = useNavigate();
     const { id } = useParams();
 
@@ -55,16 +52,13 @@ function Show() {
     const [feedback, setFeedback] = useState('')
     const [error, seterror] = useState('')
     const [Reviews, setReviews] = useState([])
-    const [owner, setOwner] = useState('')
-    const [auther, setauther] = useState({})
-    const [autherId, setautherId] = useState('')
 
     const ShowindividualData = async () => {
         try {
-            const data = await Get(`showListing/${id}`, token)
+            const data = await Get(`showListing/${id}`)
+            console.log("data",data)
             if (data.result > 0) {
                 setShow(data.result_value)
-                setOwner(data.owner)
             } else {
                 setShow(data.error_value)
             }
@@ -72,6 +66,11 @@ function Show() {
             console.log(error)
         }
     }
+
+    const currentuser=localStorage.getItem("userId")
+        const token = localStorage.getItem('token')
+
+
 
     // useEffect(() => {
     //     if (Show.location && Show.location.latitude && Show.location.longitude) {
@@ -93,17 +92,20 @@ function Show() {
         }
     }
 
-    const reviews = async () => {
+    const createReviews = async () => {
+       
         try {
             if (feedback === '') {
                 seterror('Please add some comments for review')
                 return;
             }
-            const sendReviews = await Post(`listings/${id}/reviews`, { rating, feedback }, token)
+            const sendReviews = await Post(`listings/${id}/reviews`, { rating, feedback ,currentuser}, token)
 
             if (sendReviews.result > 0) {
                 seterror('')
                 alert(sendReviews.message)
+                    getReviews();
+
             } else {
                 alert(sendReviews.error_value)
             }
@@ -116,10 +118,6 @@ function Show() {
         try {
             const response = await Get(`listings/reviews/${id}`, token);
             if (response.result > 0) {
-                const authorNames = response.auther.map((item) => item.username);
-                const authorId = response.auther.map((item) => item._id);
-                setautherId(authorId)
-                setauther(authorNames);
                 setReviews(response.result_value);
             } else {
                 console.log(response.error_value);
@@ -130,9 +128,15 @@ function Show() {
     };
 
     const deleteReviews = async (reviewId, autherId) => {
-        if (loggedInUserId === autherId) {
-            await Delete(`listng/${id}/deleteReview/${reviewId}`, token)
+        if (currentuser === autherId) {
+           const response= await Delete(`listng/${id}/deleteReview/${reviewId}`)
+           if(response.result>0)
+           {
             alert("Review deleted.")
+             ShowindividualData()
+             getReviews()
+           }
+           
         } else {
             alert("You are not the author of this review.")
         }
@@ -159,11 +163,11 @@ function Show() {
                         <h5 className="card-title title">{Show.title}</h5>
                         {Show.image && <img src={Show.image.url} className='show-img' alt="Listing" />}
                         <div className="card-body">
-                            <h4>Owned by: {owner.username ?? ''}</h4>
+                            <h4>Owned by: {Show.owner?.username ?? ''}</h4>
                             <p className="card-text">{(Show.price ?? 0).toLocaleString("en-IN", { style: "currency", currency: "INR" })}</p>
                             <p className="card-text">{Show.country}</p>
                             <p className="card-text">{Show.location?.address ?? ''}</p>
-                            {currUser && owner._id === currUser && (
+                            {currentuser && Show.owner?._id === currentuser && (
                                 <>
                                     <button className='btn btn-success' onClick={() => navigate('/Edit', { state: { id: Show._id } })}>Edit</button>
                                     <button className='btn btn-danger' style={{ marginLeft: "20px" }} onClick={deleteData}>Delete</button>
@@ -192,7 +196,7 @@ function Show() {
                             <textarea rows='5' cols='30' id='comment' name='review[comment]' className='form-control' onChange={(e) => setFeedback(e.target.value)}></textarea>
                             {error && <p className='error'>{error}</p>}
                         </div>
-                        <button className='btn btn-success' onClick={reviews}>Submit</button>
+                        <button className='btn btn-success' onClick={createReviews}>Submit</button>
                         <hr />
                         {Reviews.length > 0 && (
                             <div className='row'>
@@ -200,10 +204,13 @@ function Show() {
                                 {Reviews.map((items, index) => (
                                     <div className='card col-5 mb-3 ms-3' key={items._id}>
                                         <div className='card-body'>
-                                            <h5 className='card-title'>{auther[index]}</h5>
+                                            <h5 className='card-title'>{items.author.username}</h5>
                                             <p className="starability-result" data-rating={items.rating}></p>
                                             <p className='card-text'>{items.comment}</p>
-                                            <button className='btn btn-sm btn-danger mb-3' onClick={() => deleteReviews(items._id, autherId[index])}>Delete</button>
+                                            {items.author._id===currentuser &&
+                                            <button className='btn btn-sm btn-danger mb-3' onClick={() => deleteReviews(items._id, items.author._id)}>Delete</button>
+
+                                             }
                                         </div>
                                     </div>
                                 ))}
