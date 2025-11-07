@@ -9,8 +9,8 @@ const userSchema=new mongoose.Schema({
 
       },
       password:String,
-       profileImage: String,
-      googleId: String, 
+    displayName: { type: String, required: true },
+     googleId: { type: String, required: false },
       authProvider: String,
       resetPasswordToken: { type: String },
        resetPasswordExpires: { type: Date }

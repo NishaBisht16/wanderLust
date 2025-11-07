@@ -5,14 +5,15 @@ const User=require('../models/userModel')
 
 const createReview=async(req,res)=>{
     const {id}=req.params;
+    console.log(id);
     try{
         
         let listings=await Listing.findById({_id:id})
-        const {rating,feedback}=req.body
+        const {rating,feedback,currentuser}=req.body
         const newReview=new Review({
         comment:feedback,
         rating:rating,
-        author:req.user.user._id
+        author:currentuser
     })
     listings.reviews.push(newReview)
     await newReview.save()
@@ -38,37 +39,23 @@ const getReview=async(req,res)=>{
     const {id}=req.params
     try{
          
-        const listingData=await Listing.findById({_id:id})
+        const listingData=await Listing.findById({_id:id}).populate("reviews")
          
        
         const reviews=[]
-    
-
             for(let i=0; i<listingData.reviews.length; i++)
         {
            
-            const reviewsData=await Review.findById({_id:listingData.reviews[i]}) 
+            const reviewsData=await Review.findById({_id:listingData.reviews[i]._id}).populate("author") 
             reviews.push(reviewsData)
-           
-           
         }
         
-        
-       const auther=[]
-        for(let i=0; i<reviews.length; i++)
-        {
-            
-            const getAuthordata=await User.findById({_id:reviews[i].author})
-            auther.push(getAuthordata)
-           
-        }
         
         if(reviews)
         {
             res.send({
             result:1,
             result_value:reviews,
-            auther:auther
 
         }) 
     }
@@ -89,7 +76,13 @@ const deleteReview=async (req,res)=>{
       try{
       await Listing.findByIdAndUpdate(id,{$pull : {reviews:reviewId}})
       await Review.findByIdAndDelete({_id:reviewId})
+
+      res.send({
+        result:1,
+        result_value:"Review deleted"
+      })
       }
+
       catch(error){
            res.send({
             result:0,

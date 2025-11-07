@@ -12,14 +12,10 @@ const googleloginservice = async (token) => {
     }
 
     
-    let user = await User.findOne({ email: userInfo.email });
+    let user = await User.findOne({ $or: [{ email: userInfo.email }, { googleId: userInfo.sub }] });
 
-    if (user) {
-      return { result: 1, result_value: "User login successful", user };
-    }
-
-  
-    user = await User.create({
+    if (!user) {
+        user = await User.create({
       username: userInfo.name,
       email: userInfo.email,
       password: userInfo.sub, 
@@ -27,6 +23,16 @@ const googleloginservice = async (token) => {
       googleId: userInfo.sub, 
       authProvider: "google",
     });
+         
+    }
+     else {
+      user.googleId = userInfo.sub;
+      user.displayName = userInfo.name;
+    }
+        await user.save().catch((err) => {
+});
+  
+   
 
      const usertoken = await genrateJwtToken(userInfo.email)
     

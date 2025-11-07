@@ -21,7 +21,7 @@ const createListing=async(  req,res)=>{
      
       const path=req.file.path  
       const filename=req.file.filename
-    const {title,price,location,country}=req.body
+    const {title,price,location,country,owner}=req.body
     const existedData=await Listing.find()
 
 
@@ -46,7 +46,7 @@ const createListing=async(  req,res)=>{
            url:path,
             filename:filename
         },
-        owner:req.user.user._id
+        owner:owner
 
     })
 

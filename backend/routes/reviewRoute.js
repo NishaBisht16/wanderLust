@@ -5,6 +5,6 @@ const {createReview,getReview,deleteReview}=require('../controller/reviewControl
 
 router.post('/listings/:id/reviews',verifyUser,createReview)
 router.get('/listings/reviews/:id',verifyUser,getReview)
-router.delete('/listng/:id/deleteReview/:reviewId',verifyUser,deleteReview)
+router.delete('/listng/:id/deleteReview/:reviewId',deleteReview)
 
 module.exports=router

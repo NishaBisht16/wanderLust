@@ -7,13 +7,11 @@ const showindividualListing=async(req,res)=>{
     try{
         if(Listing.length>0)
         {
-        const data=await Listing.findById({_id:id})
-        const owner=await User.findById({_id:data.owner})
+        const data=await Listing.findById({_id:id}).populate("owner")
         
         res.send({
             result:1,
             result_value:data,
-            owner:owner
             
         })
         }

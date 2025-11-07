@@ -1,6 +1,5 @@
 const jwt=require('jsonwebtoken')
-const secretKey="@#$#@%$^RGERGD"
-
+const secretKey=process.env.secretkey
 function verifyUser(req,res,next){
    const userToken = req.headers['authorization']; 
 
