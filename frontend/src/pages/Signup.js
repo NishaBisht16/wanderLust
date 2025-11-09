@@ -35,7 +35,6 @@ const Signup = () => {
          email:user.email,
          password:user.password
          })
-         console.log("SIGNUP DATA",data)
          if(data.result>0)
          {
           toast.success(data.message,{

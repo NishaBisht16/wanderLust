@@ -35,7 +35,6 @@ export const Get=async(endpoint,token)=>{
 export const Post=async(endpoint,data,token)=>{
 
           if (setGlobalLoading) setGlobalLoading(true);
-             debugger;
     try{
         
         const response=await fetch(`${API_URL}${endpoint}`,{

@@ -56,7 +56,6 @@ function CreateList() {
         body: formData, 
       });
         const Result=await response.json()
-        console.log("response",Result)  
         if(Result.result>0)
         {
           alert(Result.message)
@@ -66,7 +65,6 @@ function CreateList() {
         }
         else{
           navigate('/Error', { state: { err: Result.message } });
-          console.log(Result.result)
           return;
         }
       }

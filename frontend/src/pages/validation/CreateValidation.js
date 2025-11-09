@@ -1,5 +1,4 @@
 export default function AddDataValidation(data){
-    console.log("validation function called")
     
     const error={}
 

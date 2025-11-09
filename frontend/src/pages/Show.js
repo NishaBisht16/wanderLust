@@ -7,12 +7,12 @@ import Footer from '../components/Footer';
 import './Show.css'
 import './Style.css'
 import { GoogleMap, useJsApiLoader } from '@react-google-maps/api'
-import { MapContainer } from '../components/MapContainer/MapContainer';
+// import { MapContainer } from '../components/MapContainer/MapContainer';
 
-const containerStyle = {
-    width: '600px',
-    height: '400px',
-}
+// const containerStyle = {
+//     width: '600px',
+//     height: '400px',
+// }
 
 function Show() {
 
@@ -56,7 +56,6 @@ function Show() {
     const ShowindividualData = async () => {
         try {
             const data = await Get(`showListing/${id}`)
-            console.log("data",data)
             if (data.result > 0) {
                 setShow(data.result_value)
             } else {
@@ -67,8 +66,8 @@ function Show() {
         }
     }
 
-    const currentuser=localStorage.getItem("userId")
-        const token = localStorage.getItem('token')
+    const currentuser = localStorage.getItem("userId")
+    const token = localStorage.getItem('token')
 
 
 
@@ -83,6 +82,10 @@ function Show() {
     // }, [Show]);
 
     const deleteData = async () => {
+       const confirm= window.confirm("Are you sure you want to delete this listing? ")
+       if(!confirm)
+        return;
+
         const data = await Delete(`deleteListing/${id}`, token)
         if (data.result > 0) {
             alert(data.message)
@@ -93,18 +96,20 @@ function Show() {
     }
 
     const createReviews = async () => {
-       
+
         try {
             if (feedback === '') {
                 seterror('Please add some comments for review')
                 return;
             }
-            const sendReviews = await Post(`listings/${id}/reviews`, { rating, feedback ,currentuser}, token)
+            const sendReviews = await Post(`listings/${id}/reviews`, { rating, feedback, currentuser }, token)
+            setFeedback('')
+            setRating('')
 
             if (sendReviews.result > 0) {
                 seterror('')
                 alert(sendReviews.message)
-                    getReviews();
+                getReviews();
 
             } else {
                 alert(sendReviews.error_value)
@@ -127,24 +132,35 @@ function Show() {
         }
     };
 
-    const deleteReviews = async (reviewId, autherId) => {
-        if (currentuser === autherId) {
-           const response= await Delete(`listng/${id}/deleteReview/${reviewId}`)
-           if(response.result>0)
-           {
-            alert("Review deleted.")
-             ShowindividualData()
-             getReviews()
-           }
-           
-        } else {
-            alert("You are not the author of this review.")
+    const deleteReviews = async (reviewId, authorId) => {
+    const confirmDelete = window.confirm("Are you sure you want to delete this review?");
+    if (!confirmDelete) return; 
+
+    if (currentuser === authorId) {
+        try {
+            const response = await Delete(`listng/${id}/deleteReview/${reviewId}`);
+
+            if (response && response.result > 0) {
+                alert("Review deleted successfully.");
+                ShowindividualData(); 
+                getReviews();          
+            } else {
+                alert("Failed to delete review. Please try again.");
+            }
+        } catch (error) {
+            console.error("Error deleting review:", error);
+            alert("Something went wrong. Please try again later.");
         }
+    } else {
+        alert("You are not the author of this review.");
     }
+};
+
 
     useEffect(() => {
         ShowindividualData()
         getReviews()
+      
     }, [])
 
     const handlechange = (e) => {
@@ -204,25 +220,33 @@ function Show() {
                                 {Reviews.map((items, index) => (
                                     <div className='card col-5 mb-3 ms-3' key={items._id}>
                                         <div className='card-body'>
-                                            <h5 className='card-title'>{items.author.username}</h5>
+                                            <h5 className='card-title'>{items.author?.username}</h5>
                                             <p className="starability-result" data-rating={items.rating}></p>
                                             <p className='card-text'>{items.comment}</p>
-                                            {items.author._id===currentuser &&
-                                            <button className='btn btn-sm btn-danger mb-3' onClick={() => deleteReviews(items._id, items.author._id)}>Delete</button>
+                                            {items.author?._id === currentuser ? (
+                                                <button
+                                                    className='btn btn-sm btn-danger mb-3'
+                                                    onClick={() => deleteReviews(items._id, items.author?._id)}
+                                                >
+                                                    Delete
+                                                </button>
+                                            ) : (
+                                                ""
+                                            )}
 
-                                             }
+
                                         </div>
                                     </div>
                                 ))}
                             </div>
                         )}
 
-                        
-                            <div className='col-8  mb-3 mt-3'>
+
+                        {/* <div className='col-8  mb-3 mt-3'>
                                 <h4>Where you'll be</h4>
                                 <MapContainer address={Show.country}/>
-                            </div>
-                        
+                            </div> */}
+
                     </div>
                 </div>
             </div>

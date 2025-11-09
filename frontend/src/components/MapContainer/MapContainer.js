@@ -20,7 +20,6 @@ export const MapContainer=({address})=>{
     const [coordinates,setcoordinates]=useState(defaultCenter)
 
     const fetchcoordinate=async(address)=>{
-        debugger;
         try{
             const res=await axios.post(`${API_URL}getcordinates`,{
                 address:address

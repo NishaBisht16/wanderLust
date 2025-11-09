@@ -22,7 +22,6 @@ function HomeScreen() {
   const [isChecked, setIsChecked] = useState(false);
 
   const {searchquery}=useAuth()
-  console.log("searchquery",searchquery)
 
   const checkToggel = () => {
     if (isChecked) {
@@ -32,11 +31,9 @@ function HomeScreen() {
       setIsChecked(true)
     }
   }
-  const navigate = useNavigate();
   const getAllData = async () => {
     try {
       const data = await Get('allListing')
-      console.log(data)
       if (data.result > 0) {
         setlistData(data.result_value)
       }
@@ -52,7 +49,6 @@ function HomeScreen() {
     getAllData()
   }, [])
 
-  console.log(isChecked)
   return (
     <div className='main'>
       <div style={{ marginLeft: "20px" }}>

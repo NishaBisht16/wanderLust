@@ -62,10 +62,11 @@ const Login = () => {
 
             }
             const data = await Post('auth/googlelogin', model)
-            console.log("data",data)
             if (data.result == 1) {
 
                 login(data.result_value)
+                currentUser(data.curruser._id)
+
                 navigate('/')
 
             }

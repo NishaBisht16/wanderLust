@@ -36,7 +36,6 @@ function Edit() {
 
         const response=await Get(`EditListing/${id}`,token)
         try{
-        console.log(response)   
         
         const fetchListing=({
           title:response.result_value.data.title,
@@ -64,7 +63,6 @@ function Edit() {
 
     const updateData=async()=>{
       try{
-        debugger;
         if(listing.title==''||listing.price==''||listing.location=='' || listing.country=='' || listing.image=='')
         {
           alert('Selected fields should not be empty')
