@@ -58,7 +58,6 @@ newList.save().then(()=>{
     })
 
 }).catch((err)=>{
-    console.log("error",err)
     res.send({
         result:0,
         message:err.message

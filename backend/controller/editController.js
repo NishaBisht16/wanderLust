@@ -62,7 +62,6 @@ const updateListing = async (req, res) => {
             await listing.save();
         }
 
-        console.log("Updated Listing:", listing);
 
         return res.json({
             result: 1,

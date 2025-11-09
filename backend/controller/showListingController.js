@@ -24,7 +24,6 @@ const showindividualListing=async(req,res)=>{
     }
 catch(error)
 {
-    console.log("error",error.message)
     res.send({
         result:0,
         error_value:error

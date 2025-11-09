@@ -32,12 +32,11 @@ const googleloginservice = async (token) => {
         await user.save().catch((err) => {
 });
   
-   
 
      const usertoken = await genrateJwtToken(userInfo.email)
     
 
-    return { result: 1, result_value: usertoken };
+    return { result: 1, result_value: usertoken,curruser:user };
 
   } catch (error) {
     console.error("Error in googleloginservice:", error.message);

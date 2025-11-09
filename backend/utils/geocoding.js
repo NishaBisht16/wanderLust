@@ -15,7 +15,6 @@ const getCoordinates = async (address) => {
     const location = response.data.results[0] && response.data.results[0].geometry.location;
     return location; // { lat: ..., lng: ... }
   } catch (error) {
-    console.error('Geocoding error:', error.message);
     throw error;
   }
 };

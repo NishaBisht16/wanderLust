@@ -5,7 +5,6 @@ const User=require('../models/userModel')
 
 const createReview=async(req,res)=>{
     const {id}=req.params;
-    console.log(id);
     try{
         
         let listings=await Listing.findById({_id:id})

@@ -34,7 +34,6 @@ const signupUser = async (req, res) => {
 const loginUser=async(req,res)=>{
      try{
         const {email,password}=req.body
-        console.log(req.body)
         const response=await loginUserService({email,password})
 
         if(response.success)
@@ -88,6 +87,8 @@ const googleLogin = async (req, res) => {
       return res.status(200).json({
         result: 1,
         result_value: response.result_value,
+        curruser:response.curruser
+
       });
     } else {
       return res.status(400).json({
@@ -96,7 +97,6 @@ const googleLogin = async (req, res) => {
       });
     }
   } catch (error) {
-    console.error("Google login controller error:", error.message);
     return res.status(500).json({
       result: 0,
       result_value: "Server error during Google login",
@@ -108,7 +108,6 @@ const googleLogin = async (req, res) => {
 const forgotpassword=async(req,res)=>{
   try{
     const {email}=req.body;
-    console.log(email)
 
     const response=await forgotPasswordService(email)
     if(response.success){

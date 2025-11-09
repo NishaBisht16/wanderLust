@@ -10,7 +10,6 @@ export const validategoogletoken=async(token)=>{
   }
   catch(error)
   {
-    console.error("Google validation falid",error.message)
     throw error;
 
   }
