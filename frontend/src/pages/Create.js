@@ -26,7 +26,6 @@ function CreateList() {
     const handleInputs=(e)=>{
       const newData={...data,[e.target.name]:e.target.value}
       setdata(newData)
-
     }
 
     const navigate=useNavigate()
@@ -123,6 +122,8 @@ function CreateList() {
              {error.country && <p className='error'>{error.country}</p>}
           </div>
 
+          
+
           </div>
           <div className='mb-3'>
             <label for="location">Location</label>
@@ -138,7 +139,6 @@ function CreateList() {
           </form>
         </div>
         </div>
-    
       <Footer/>
     </div>
   )

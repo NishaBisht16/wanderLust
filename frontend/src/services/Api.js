@@ -60,7 +60,6 @@ export const Put=async(endpoint,data,token)=>{
           if (setGlobalLoading) setGlobalLoading(true);
 
     try{
-        console.log(data)
         const response=await fetch(`${API_URL}${endpoint}`,{
             method:"PUT",
             headers:{
